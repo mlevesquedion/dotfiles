@@ -1,0 +1,229 @@
+################################################################################
+# STARTUP
+################################################################################
+
+exec --no-startup-id deja-dup
+
+################################################################################
+# MISC
+################################################################################
+
+# mouse focus
+focus_follows_mouse no
+
+################################################################################
+# STYLE
+################################################################################
+
+set $bg-color 	         #aa42f4
+set $inactive-bg-color   #2b113d
+set $text-color          #ffffff
+set $inactive-text-color #666666
+set $urgent-bg-color     #f44141
+
+# window colors
+#                       border              background         text                 indicator
+client.focused          $bg-color           $bg-color          $text-color          #00ff00
+client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00
+client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00
+client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #00ff00
+
+# font for window titles
+font pango:DejaVu Sans Mono 10
+
+# bar
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
+# wallpaper
+exec_always feh --bg-scale /home/michael/Pictures/03036_emeraldmorainelake_2560x1440.jpg
+
+# clipboard manager
+exec_always greenclip daemon
+
+################################################################################
+# WORKSPACES
+################################################################################
+
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+for_window [class="Steam"] move to workspace $ws8
+for_window [class="Slack"] move to workspace $ws9
+for_window [class="Spotify"] move to workspace $ws10
+
+################################################################################
+# APPLICATIONS
+################################################################################
+
+# anki
+bindsym $mod+a exec anki
+
+# chrome
+bindsym $mod+c exec google-chrome
+
+# screen capture
+bindsym $mod+x exec maim -s --format=png /dev/stdout | xclip -selection clipboard -t image/png -i
+
+################################################################################
+# CUSTOM KEYBINDINGS
+################################################################################
+
+# mod
+set $mod Mod4
+
+# directions
+set $up k
+set $down j
+set $left h
+set $right l
+
+# move under left
+bindsym $mod+Ctrl+h focus left; split vertical; focus right; move left
+
+# move above left
+bindsym $mod+Ctrl+j focus left; split vertical; focus right; move left; move up
+
+# move under right
+bindsym $mod+Ctrl+l focus right; split vertical; focus left; move right
+
+# move above right
+bindsym $mod+Ctrl+k focus right; split horizontal; focus left; move right; move up
+
+# focus child container
+bindsym $mod+Ctrl+c focus child
+
+# focus parent container
+bindsym $mod+Ctrl+p focus parent
+
+
+# Pulse Audio controls
+bindsym $Mod+Shift+o exec --no-startup-id pactl set-sink-volume 0 +5% && pactl set-sink-volume 1 +5%
+bindsym $Mod+Shift+i exec --no-startup-id pactl set-sink-volume 0 -5% && pactl set-sink-volume 1 -5%
+bindsym $Mod+Shift+p exec --no-startup-id pactl set-sink-mute 0 toggle && pactl set-sink-mute 1 toggle
+
+# Switch keyboard layout
+bindsym $Mod+Shift+n exec setxkbmap -layout ca && setxkbmap -option caps:super
+bindsym $Mod+Shift+m exec setxkbmap -layout us && setxkbmap -option caps:super
+
+# Sreen brightness controls
+bindsym XF86MonBrightnessUp exec xbacklight -inc 20
+bindsym XF86MonBrightnessDown exec xbacklight -dec 20
+
+# resize
+bindsym $mod+r mode "resize"
+mode "resize" {
+    bindsym $left       resize shrink width 10 px or 10 ppt
+    bindsym $down       resize shrink height 10 px or 10 ppt
+    bindsym $up         resize grow height 10 px or 10 ppt
+    bindsym $right      resize grow width 10 px or 10 ppt
+    bindsym Ctrl+$left       resize shrink width 5 px or 5 ppt
+    bindsym Ctrl+$down       resize shrink height 5 px or 5 ppt
+    bindsym Ctrl+$up         resize grow height 5 px or 5 ppt
+    bindsym Ctrl+$right      resize grow width 5 px or 5 ppt
+
+    bindsym $mod+r mode "default"
+}
+
+bindsym $mod+d exec rofi -show drun
+
+# suspend
+bindsym $Mod+S exec systemctl suspend
+
+# find window by name
+bindsym $Mod+G exec rofi -show window
+
+# Show clipboard manager
+bindsym $Mod+P exec rofi -modi "clipboard:greenclip print" -show clipboard
+
+################################################################################
+# DEFAULT KEYBINDINGS
+################################################################################
+
+# use Mouse+mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# start a terminal
+bindsym $mod+Return exec i3-sensible-terminal
+
+# kill focused window
+bindsym $mod+q kill
+bindsym $mod+Shift+q kill
+
+# change focus
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+
+# move focused window
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+
+# split in horizontal orientation
+bindsym $mod+b split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+# bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# move the currently focused window to the scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $mod+minus scratchpad show
+
+# switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+

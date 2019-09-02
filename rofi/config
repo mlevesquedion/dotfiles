@@ -1,0 +1,13 @@
+rofi.color-enabled: true
+rofi.color-window: #1c1c1c, #be6ef7, #c1c1c1
+rofi.color-normal: #1c1c1c, #c1c1c1, #1c1c1c, #aa42f4, #ffffff
+rofi.color-active: #1c1c1c, #c1c1c1, #aa42f4, #aa42f4, #ffffff
+rofi.color-urgent: #1c1c1c, #ff1844, #273238, #394249, #ff1844
+rofi.width: 40
+rofi.lines: 5
+rofi.font: Noto Sans 20
+rofi.opacity: 0
+rofi.bw: 3
+rofi.padding: 6
+rofi.hide-scrollbar: true
+rofi.separator-style: solid
