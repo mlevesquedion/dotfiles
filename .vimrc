@@ -121,16 +121,15 @@ set list
 " Python
 augroup V_Python
   autocmd!
-  highlight TrailingComma ctermbg=red ctermfg=white
-  autocmd ColorScheme *.py highlight TrailingComma ctermbg=red ctermfg=white
-  match TrailingComma /,$/
+  autocmd FileType python highlight TrailingComma ctermbg=red ctermfg=white
+  autocmd FileType python match TrailingComma /,$/
   autocmd BufNewFile,BufRead *.py
-      \ set softtabstop=4 |
-      \ set shiftwidth=4 |
-      \ set textwidth=79 |
-      \ set foldmethod=indent |
-      \ set fileformat=unix |
-  autocmd BufWritePre *.py :!pytest -vv -s
+      \ setlocal softtabstop=4 |
+      \ setlocal shiftwidth=4 |
+      \ setlocal textwidth=79 |
+      \ setlocal foldmethod=indent |
+      \ setlocal fileformat=unix |
+  " autocmd BufWritePre *.py :!pytest -vv -s
 augroup end
 
 augroup V_Golang
@@ -143,10 +142,10 @@ augroup V_TextOutline
   autocmd!
   autocmd BufWrite *.outline :!outgraph %
   autocmd BufNewFile,BufRead *.outline
-      \ set softtabstop=1 |
-      \ set shiftwidth=1 |
-      \ set foldmethod=indent |
-      \ set fileformat=unix |
+      \ setlocal softtabstop=1 |
+      \ setlocal shiftwidth=1 |
+      \ setlocal foldmethod=indent |
+      \ setlocal fileformat=unix |
 augroup end
 
 " Racket
@@ -204,9 +203,6 @@ nnoremap <leader>E :normal mzLdiW`z<CR>
 " Go to decl/defn
 nnoremap <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
-" Duplicate character
-nnoremap <leader>d ylp
-
 " Visual Block mode
 nnoremap <leader>v <C-v>
 
@@ -254,6 +250,7 @@ nnoremap <leader>S diwF,bviwpWP
 nnoremap <C-j> }
 nnoremap <C-k> {
 
+
 " Save
 nnoremap <C-s> :w<cr>
 
@@ -272,19 +269,6 @@ nnoremap <C-h> <C-o>
 nnoremap <C-o> <NOP>
 nnoremap <C-l> <C-i>
 nnoremap <C-i> <NOP>
-
-" Jump to end of line
-inoremap <C-b> <C-o>_
-inoremap <C-e> <C-o>$
-
-" Jump to below line
-inoremap <C-o> <C-o>o
-
-" Delete 'til end of line
-inoremap <C-d> <C-o>d$
-
-" Enter Insert-Normal mode
-inoremap <C-n> <C-o>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MOTION MAPPINGS
@@ -330,12 +314,30 @@ noremap gV `[v`]
 " INSERT MODE
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Escape
-inoremap jk <ESC>
+inoremap jk <ESC>:w<CR>
 inoremap <ESC> <c-o><ESC>
 inoremap <C-[> <c-o><ESC>
 
 " Quick insert last yank/delete
 inoremap <C-r><C-r> <C-r>"
+
+" Jump to start/end of line
+inoremap <C-h> <C-o>_
+inoremap <C-l> <C-o>$
+
+" Delete 'til end of line
+inoremap <C-d> <C-o>d$
+inoremap <C-c> <C-o>d$
+
+" Enter Insert-Normal mode
+inoremap <C-n> <C-o>
+
+" Move while in insert mode
+inoremap <C-j> <C-o>j
+inoremap <C-k> <C-o>k
+
+" Enter Replace mode
+inoremap <C-r> <C-o>R
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " VISUAL MODE

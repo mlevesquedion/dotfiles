@@ -30,10 +30,9 @@ precmd() { eval "$PROMPT_COMMAND" }
 ###############################################################################
 # ZSH
 ###############################################################################
-ZSH_THEME="robbyrussell-with-lambda"
+ZSH_THEME="mlevesquedion"
 
 autoload -U compinit && compinit -u
-
 plugins=(
   git
   mvn
@@ -57,6 +56,8 @@ alias v='vim -o -n'
 alias jn='jupyter notebook'
 alias mx='chmod u+x'
 alias pk=pkill
+alias pks='pkill slack'
+alias pkx='sudo pkill X'
 alias va='vim -o -n *'
 alias vw=view
 alias clip='xclip -selection clipboard'
@@ -68,9 +69,16 @@ alias df="pydf | rg nvme --color never"
 
 # Wrappers
 alias rmf='rm -rf'
+alias psa='ps aux'
+alias rmd=rmdir
 alias tarc='tar -czvf'
 alias tarx='tar -xzvf'
 alias mkcd=take
+alias path=realpath
+
+# Functional
+alias map='xargs -L1'
+alias filter=grep
 
 # Config
 alias vc="vim -n $VIMRC"
@@ -84,6 +92,7 @@ alias polycfg="vim ~/.config/polybar/config"
 
 # Temp files
 alias vt='vim /tmp/$RANDOM'
+alias ct='take /tmp/$RANDOM'
 alias vtm='vim /tmp/$RANDOM.md'
 
 # Todos
@@ -111,12 +120,8 @@ alias js='bundle exec jekyll serve --watch --drafts'
 ###############################################################################
 # MAVEN
 ###############################################################################
-alias mt='mvn clean test'
-alias mco='mvn clean compile'
-alias mcl='mvn clean'
-alias mpa='mvn clean package'
-alias min='mvn clean install'
-alias msi='mvn clean site'
+alias mvt='mvn clean test'
+alias mvi='mvn clean install'
 
 ###############################################################################
 # OPAM CONFIGURATION
@@ -164,6 +169,7 @@ alias gitstat=git-quick-stats
 ###############################################################################
 # GO
 ###############################################################################
+alias gohome="cd $GOSRC"
 alias gob='go build'
 alias got='go test'
 alias goi='go install'
@@ -173,11 +179,11 @@ alias gor='go run'
 # RUST
 ###############################################################################
 source $HOME/.cargo/env
-alias cr="cargo run"
-alias cb="cargo build"
-alias crbt="RUST_BACKTRACE=1 cargo run"
-alias ct="cargo test"
-alias cf="cargo fix"
+# alias cr="cargo run"
+# alias cb="cargo build"
+# alias crbt="RUST_BACKTRACE=1 cargo run"
+# alias ct="cargo test"
+# alias cf="cargo fix"
 
 ###############################################################################
 # ERLANG

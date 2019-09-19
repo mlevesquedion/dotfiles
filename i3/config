@@ -1,8 +1,14 @@
 ################################################################################
 # STARTUP
 ################################################################################
+# bar
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
-exec --no-startup-id deja-dup
+# wallpaper
+exec_always feh --bg-scale /home/michael/Pictures/03036_emeraldmorainelake_2560x1440.jpg
+
+# clipboard manager
+exec_always greenclip daemon
 
 ################################################################################
 # MISC
@@ -31,15 +37,6 @@ client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color      
 # font for window titles
 font pango:DejaVu Sans Mono 10
 
-# bar
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-
-# wallpaper
-exec_always feh --bg-scale /home/michael/Pictures/03036_emeraldmorainelake_2560x1440.jpg
-
-# clipboard manager
-exec_always greenclip daemon
-
 ################################################################################
 # WORKSPACES
 ################################################################################
@@ -55,9 +52,8 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
-for_window [class="Steam"] move to workspace $ws8
 for_window [class="Slack"] move to workspace $ws9
-for_window [class="Spotify"] move to workspace $ws10
+for_window [class="Spotify"] move to workspace $ws9
 
 ################################################################################
 # APPLICATIONS
@@ -103,7 +99,6 @@ bindsym $mod+Ctrl+c focus child
 # focus parent container
 bindsym $mod+Ctrl+p focus parent
 
-
 # Pulse Audio controls
 bindsym $Mod+Shift+o exec --no-startup-id pactl set-sink-volume 0 +5% && pactl set-sink-volume 1 +5%
 bindsym $Mod+Shift+i exec --no-startup-id pactl set-sink-volume 0 -5% && pactl set-sink-volume 1 -5%
@@ -132,7 +127,7 @@ mode "resize" {
     bindsym $mod+r mode "default"
 }
 
-bindsym $mod+d exec rofi -show drun
+bindsym $Mod+d exec rofi -show drun
 
 # suspend
 bindsym $Mod+S exec systemctl suspend
@@ -179,7 +174,7 @@ bindsym $mod+v split v
 bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
-# bindsym $mod+s layout stacking
+bindsym $mod+t layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
