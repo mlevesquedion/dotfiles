@@ -5,7 +5,7 @@
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # wallpaper
-exec_always feh --bg-scale /home/michael/Pictures/03036_emeraldmorainelake_2560x1440.jpg
+exec_always feh --bg-scale /home/michael/Documents/Pictures/03036_emeraldmorainelake_2560x1440.jpg
 
 # clipboard manager
 exec_always greenclip daemon
@@ -66,7 +66,8 @@ bindsym $mod+a exec anki
 bindsym $mod+c exec google-chrome
 
 # screen capture
-bindsym $mod+x exec maim -s --format=png /dev/stdout | xclip -selection clipboard -t image/png -i
+bindsym $mod+x exec maim -s -u --format=png /dev/stdout | xclip -selection clipboard -t image/png -i
+bindsym $mod+shift+x exec maim  --format=png /dev/stdout | xclip -selection clipboard -t image/png -i
 
 ################################################################################
 # CUSTOM KEYBINDINGS
@@ -107,10 +108,6 @@ bindsym $Mod+Shift+p exec --no-startup-id pactl set-sink-mute 0 toggle && pactl 
 # Switch keyboard layout
 bindsym $Mod+Shift+n exec setxkbmap -layout ca && setxkbmap -option caps:super
 bindsym $Mod+Shift+m exec setxkbmap -layout us && setxkbmap -option caps:super
-
-# Sreen brightness controls
-bindsym XF86MonBrightnessUp exec xbacklight -inc 20
-bindsym XF86MonBrightnessDown exec xbacklight -dec 20
 
 # resize
 bindsym $mod+r mode "resize"

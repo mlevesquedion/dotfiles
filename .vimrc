@@ -8,6 +8,12 @@ call vundle#begin()
     " Plugin manager, has to be loaded first
     Plugin 'gmarik/Vundle.vim'
 
+    " Idris
+    Plugin 'idris-hackers/idris-vim'
+
+    " Elm
+    Plugin 'ElmCast/elm-vim'
+
     " Formatting
     Plugin 'Chiel92/vim-autoformat'
     let g:autoformat_autoindent = 0
@@ -24,7 +30,7 @@ call vundle#begin()
     " Autocompletion
     Plugin 'Valloric/YouCompleteMe'
     " Do not insert newline when accepting with Enter
-    inoremap <expr> <CR> pumvisible() ? "\<C-Y>" : "\<CR>"
+    " inoremap <expr> <CR> pumvisible() ? "\<C-Y>" : "\<CR>"
     " No preview window
     set completeopt-=preview
 
@@ -51,8 +57,23 @@ call vundle#begin()
     " Automatically close pairs of characters, e.g. brackets and quotes
     Plugin 'Townk/vim-autoclose'
 
+    " Haskell
+    Plugin 'neovimhaskell/haskell-vim'
+    Plugin 'nbouscal/vim-stylish-haskell'
+
+    " Dracula
+    Plugin 'dracula/vim'
+
     " Racket
     Plugin 'wlangstroth/vim-racket'
+
+    " LaTeX
+    Plugin 'lervag/vimtex'
+    let g:tex_flavor='latex'
+    let g:vimtex_quickfix_mode=0
+    let g:vimtex_view_method='zathura'
+    set conceallevel=1
+    let g:tex_conceal='abdmg'
 
     " Bracket colorizer
     Plugin 'luochen1990/rainbow'
@@ -67,22 +88,23 @@ call vundle#begin()
     let g:UltiSnipsExpandTrigger="<c-j>"
     let g:UltiSnipsJumpForwardTrigger="<c-j>"
     let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+    let g:UltiSnipsListSnippets="<c-l>"
 
     " Cool status bar
     Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 call vundle#end()
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" SETTINGS
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set t_co=256
 set background=dark
-colorscheme PaperColor
+colorscheme dracula
 syntax on
 
 filetype plugin indent on
 runtime macros/matchit.vim
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" SETTINGS
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set autoindent
 set autoread
 set autowrite
@@ -156,6 +178,12 @@ augroup V_Racket
   autocmd filetype racket set autoindent
 augroup end
 
+" LaTeX
+augroup V_LaTeX
+  autocmd!
+  autocmd BufWritePre *.tex :VimtexCompile
+augroup end
+
 " Prevent background
 noremap <C-z> <NOP>
 
@@ -171,10 +199,6 @@ nnoremap <leader>a ggVG
 nnoremap <leader>ev :split $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 
-" Insert lines without entering Insert mode
-nnoremap <leader>o o<ESC>
-nnoremap <leader>O O<ESC>
-
 " Open Command-Line window with history of ...
 " Ex commands
 nnoremap <leader>: q:
@@ -187,12 +211,10 @@ nnoremap q? <NOP>
 
 " Visually select next search match
 nnoremap <leader>n gn
+nnoremap gn ''
 
 " Clear search
 nnoremap <leader>l :nohlsearch<CR>
-
-" Paste last yank
-nnoremap <leader>p "0p
 
 " Trim one character off end of current line
 nnoremap <leader>e :normal mzLx`z<CR>
@@ -219,8 +241,8 @@ nmap <leader>} ysiw{
 " netrw
 nnoremap <leader>x :Vexplore<CR>
 
-" Count occurrences
-nnoremap <leader>c :%s///n<left><left><left>
+" Close lists
+nnoremap <leader>c :ccl<CR>:lcl<CR>
 
 " Global replace
 nnoremap <leader>r gD:%s/<C-R>///gc<left><left><left>
@@ -250,7 +272,6 @@ nnoremap <leader>S diwF,bviwpWP
 nnoremap <C-j> }
 nnoremap <C-k> {
 
-
 " Save
 nnoremap <C-s> :w<cr>
 
@@ -266,9 +287,7 @@ nnoremap <C-r> <NOP>
 
 " Navigate jump list
 nnoremap <C-h> <C-o>
-nnoremap <C-o> <NOP>
 nnoremap <C-l> <C-i>
-nnoremap <C-i> <NOP>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MOTION MAPPINGS
@@ -278,7 +297,8 @@ nnoremap H _
 nnoremap L $
 nnoremap 0 <NOP>
 nnoremap _ <NOP>
-nnoremap $ <NOP>
+nnoremap $ %
+
 vnoremap H _
 vnoremap L $
 vnoremap 0 <NOP>
@@ -288,6 +308,9 @@ vnoremap $ <NOP>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NORMAL MODE
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Always paste last yank
+nnoremap 0 "0p
+
 " Yank 'til end of line
 nnoremap Y y$
 
@@ -310,11 +333,16 @@ nnoremap ?? ?<Up>
 " Select last pasted text
 noremap gV `[v`]
 
+" Prevent Replace mode
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " INSERT MODE
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Escape
-inoremap jk <ESC>:w<CR>
+inoremap jk <ESC>
+inoremap Jk <ESC>
+inoremap JK <ESC>
+inoremap jK <ESC>
 inoremap <ESC> <c-o><ESC>
 inoremap <C-[> <c-o><ESC>
 
@@ -328,16 +356,6 @@ inoremap <C-l> <C-o>$
 " Delete 'til end of line
 inoremap <C-d> <C-o>d$
 inoremap <C-c> <C-o>d$
-
-" Enter Insert-Normal mode
-inoremap <C-n> <C-o>
-
-" Move while in insert mode
-inoremap <C-j> <C-o>j
-inoremap <C-k> <C-o>k
-
-" Enter Replace mode
-inoremap <C-r> <C-o>R
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " VISUAL MODE

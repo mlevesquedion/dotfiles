@@ -9,6 +9,8 @@ export PATH=~/bin:$PATH
 export PATH=~/anaconda3/bin:$PATH
 export PATH="$PATH:/home/michael/Development/Flutter/flutter/bin"
 export PATH="$PATH:/usr/local/go/bin"
+export PATH="$PATH:/home/michael/.gem/ruby/2.5.0/bin"
+export PATH="$PATH:/home/michael/.cabal/bin"
 export EDITOR=vim
 export PAGER=less
 export JDK_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
@@ -42,33 +44,52 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh
+source $(dirname $(gem which colorls))/tab_complete.sh
 
 ###############################################################################
 # ALIASES
 ###############################################################################
 # Essentials
+alias a=ack
 alias b=bat
-alias ba='bat *'
+alias i='sudo apt install'
 alias o=openall
+alias g=grep
 alias s='sudo $(fc -ln -1)'
 alias t=tree
 alias v='vim -o -n'
+
+# More Essentials
+alias ev=expr
+alias ee=". ~/bin/ee"
+alias tk=take
+alias tf='tree -i -f'
 alias jn='jupyter notebook'
+alias fdir='fd -t d'
 alias mx='chmod u+x'
 alias pk=pkill
 alias pks='pkill slack'
 alias pkx='sudo pkill X'
-alias va='vim -o -n *'
 alias vw=view
 alias clip='xclip -selection clipboard'
 
+# Do it all
+alias ba='bat *'
+alias ea='e *'
+alias eea=". ~/bin/ee *"
+alias oa='openall *'
+alias rma='rm *'
+alias va='vim -o -n *'
+alias gal='alias | grep'
+
 # Better defaults
-alias cp="cp -i"
-alias mv="mv -i"
-alias df="pydf | rg nvme --color never"
+alias cp='cp -i'
+alias mv='mv -i'
+alias df='pydf | rg nvme --color never'
 
 # Wrappers
 alias rmf='rm -rf'
+alias cpr='cp -r'
 alias psa='ps aux'
 alias rmd=rmdir
 alias tarc='tar -czvf'
@@ -85,14 +106,15 @@ alias vc="vim -n $VIMRC"
 alias zc="vim -n $ZSHRC; source $ZSHRC"
 alias ic="vim ~/.config/i3/config"
 alias sz="source ~/.zshrc"
-alias vs="vim -n ~/.vim/bundle/vim-snippets/snippets"
+alias vs="vim -n ~/.vim/bundle/vim-snippets/UltiSnips"
 alias dunstrc="vim ~/.config/dunst/dunstrc"
 alias roficfg="vim ~/.config/rofi/config"
 alias polycfg="vim ~/.config/polybar/config"
 
 # Temp files
-alias vt='vim /tmp/$RANDOM'
 alias ct='take /tmp/$RANDOM'
+alias vt='vim $RANDOM'
+alias ctvt='ct && vt'
 alias vtm='vim /tmp/$RANDOM.md'
 
 # Todos
@@ -110,7 +132,16 @@ alias sc='shellcheck'
 alias sha256="shasum -a 256"
 alias sha512="shasum -a 512"
 alias say=spd-say
+alias stats=zsh_stats
 eval $(thefuck --alias)
+
+###############################################################################
+# HASKELL
+###############################################################################
+alias stn='. stacknew'
+alias sti='stack install'
+alias gi=ghci
+alias hi=ghci
 
 ###############################################################################
 # JEKYLL
@@ -122,6 +153,7 @@ alias js='bundle exec jekyll serve --watch --drafts'
 ###############################################################################
 alias mvt='mvn clean test'
 alias mvi='mvn clean install'
+alias mvp='mvn clean package'
 
 ###############################################################################
 # OPAM CONFIGURATION
@@ -160,10 +192,15 @@ alias pip=pip3
 alias cc='clang -Wall'
 
 ###############################################################################
+# IDRIS
+###############################################################################
+alias idr=idris
+
+###############################################################################
 # GIT
 ###############################################################################
+alias gin='git init'
 alias gst='git status -s'
-alias gl='git pull --rebase'
 alias gitstat=git-quick-stats
 
 ###############################################################################
