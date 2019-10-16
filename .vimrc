@@ -13,6 +13,7 @@ call vundle#begin()
 
     " Elm
     Plugin 'ElmCast/elm-vim'
+    let g:elm_format_autosave = 1
 
     " Formatting
     Plugin 'Chiel92/vim-autoformat'
@@ -30,7 +31,7 @@ call vundle#begin()
     " Autocompletion
     Plugin 'Valloric/YouCompleteMe'
     " Do not insert newline when accepting with Enter
-    " inoremap <expr> <CR> pumvisible() ? "\<C-Y>" : "\<CR>"
+    " inoremap <expo> <CR> pumvisible() ? "\<C-Y>" : "\<CR>"
     " No preview window
     set completeopt-=preview
 
@@ -51,11 +52,10 @@ call vundle#begin()
     Plugin 'nlknguyen/papercolor-theme'
 
     Plugin 'tmhedberg/SimpylFold'
-    Plugin 'tpope/vim-surround'
     Plugin 'tpope/vim-commentary'
 
     " Automatically close pairs of characters, e.g. brackets and quotes
-    Plugin 'Townk/vim-autoclose'
+    Plugin 'jiangmiao/auto-pairs'
 
     " Haskell
     Plugin 'neovimhaskell/haskell-vim'
@@ -88,7 +88,9 @@ call vundle#begin()
     let g:UltiSnipsExpandTrigger="<c-j>"
     let g:UltiSnipsJumpForwardTrigger="<c-j>"
     let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-    let g:UltiSnipsListSnippets="<c-l>"
+
+    " Ack
+    Plugin 'mileszs/ack.vim'
 
     " Cool status bar
     Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
@@ -114,13 +116,9 @@ set foldlevel=99
 set foldmethod=syntax
 set hidden
 set history=1000
-set hlsearch
-set incsearch
 set laststatus=2
 set nrformats-=octal
 set showcmd
-set showmatch
-set smartcase
 set smarttab
 set timeoutlen=300
 set undodir=~/.vim/undodir
@@ -209,13 +207,6 @@ nnoremap <leader>? q?
 nnoremap q/ <NOP>
 nnoremap q? <NOP>
 
-" Visually select next search match
-nnoremap <leader>n gn
-nnoremap gn ''
-
-" Clear search
-nnoremap <leader>l :nohlsearch<CR>
-
 " Trim one character off end of current line
 nnoremap <leader>e :normal mzLx`z<CR>
 
@@ -228,17 +219,7 @@ nnoremap <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 " Visual Block mode
 nnoremap <leader>v <C-v>
 
-" Surround
-nmap <leader>' ysiw'
-nmap <leader>" ysiw"
-nmap <leader>( ysiw)
-nmap <leader>) ysiw)
-nmap <leader>[ ysiw]
-nmap <leader>] ysiw]
-nmap <leader>{ ysiw{
-nmap <leader>} ysiw{
-
-" netrw
+" Open explorer
 nnoremap <leader>x :Vexplore<CR>
 
 " Close lists
@@ -264,6 +245,32 @@ nnoremap <leader>W diwbviwplp
 nnoremap <leader>s diwwviwpF,P
 " Backward
 nnoremap <leader>S diwF,bviwpWP
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" SEARCHING
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set hlsearch
+set incsearch
+set showmatch
+set smartcase
+
+" Always use very magic mode for searching
+nnoremap / /\v
+nnoremap ? ?\v
+
+" Clear search
+nnoremap <leader>l :nohlsearch<CR>
+
+" Visual search
+vnoremap / y/<C-r>"<CR>
+
+" Ack for word under cursor
+nnoremap <leader>A yiw:Ack <C-r>"<CR>
+nnoremap <leader>C :cclose<CR>
+
+" Visually select next search match
+nnoremap <leader>n gn
+nnoremap gn ''
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " CONTROL
@@ -309,6 +316,7 @@ vnoremap $ <NOP>
 " NORMAL MODE
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Always paste last yank
+nnoremap ) "0P
 nnoremap 0 "0p
 
 " Yank 'til end of line
@@ -317,13 +325,16 @@ nnoremap Y y$
 " Prevent open man page for symbol under cursor
 nnoremap K k
 
+" Behave like C
+nnoremap S C
+
+" Move by visual lines
+nnoremap k gk
+nnoremap k gk
+
 " Add numbered movements to jump list
 nnoremap <expr> k (v:count > 2 ? "m'" . v:count : '') . 'k'
 nnoremap <expr> j (v:count > 2 ? "m'" . v:count : '') . 'j'
-
-" Always use very magic mode for searching
-nnoremap / /\v
-nnoremap ? ?\v
 
 " Recall last command or search
 nnoremap :: :<Up>
@@ -331,9 +342,14 @@ nnoremap // /<Up>
 nnoremap ?? ?<Up>
 
 " Select last pasted text
-noremap gV `[v`]
+noremap gp `[v`]
 
 " Prevent Replace mode
+nnoremap R <NOP>
+
+" Sane matching
+" Can't use nnoremap, otherwise won't work with matchit Plugin
+nmap <TAB> %
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " INSERT MODE
