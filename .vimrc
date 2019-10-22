@@ -31,7 +31,7 @@ call vundle#begin()
     " Autocompletion
     Plugin 'Valloric/YouCompleteMe'
     " Do not insert newline when accepting with Enter
-    " inoremap <expo> <CR> pumvisible() ? "\<C-Y>" : "\<CR>"
+    " inoremap <expr> <CR> pumvisible() ? "\<C-Y>" : "\<CR>"
     " No preview window
     set completeopt-=preview
 
@@ -53,9 +53,6 @@ call vundle#begin()
 
     Plugin 'tmhedberg/SimpylFold'
     Plugin 'tpope/vim-commentary'
-
-    " Automatically close pairs of characters, e.g. brackets and quotes
-    Plugin 'jiangmiao/auto-pairs'
 
     " Haskell
     Plugin 'neovimhaskell/haskell-vim'
@@ -95,6 +92,55 @@ call vundle#begin()
     " Cool status bar
     Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 call vundle#end()
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" LEADER
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let mapleader = " "
+
+" Select all
+nnoremap <leader>a ggVG
+
+" Edit/Source vimrc
+nnoremap <leader>ev :split $MYVIMRC<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr>
+
+" Open Command-Line window with history of ...
+" Ex commands
+nnoremap <leader>: q:
+nnoremap q: <NOP>
+" Searches
+nnoremap <leader>/ q/
+nnoremap <leader>? q?
+nnoremap q/ <NOP>
+nnoremap q? <NOP>
+
+" Trim one character off end of current line
+nnoremap <leader>e :normal mzLx`z<CR>
+
+" Trim one word off end of current line
+nnoremap <leader>E :normal mzLdiW`z<CR>
+
+" Go to decl/defn
+nnoremap <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+" Visual Block mode
+nnoremap <leader>v <C-v>
+
+" Open explorer
+nnoremap <leader>x :Vexplore<CR>
+
+" Close lists
+nnoremap <leader>c :ccl<CR>:lcl<CR>
+
+" Global replace
+nnoremap <leader>r gD:%s/<C-R>///gc<left><left><left>
+
+" Quick quit
+nnoremap <leader>q :q!<CR>
+
+" Quick toggle last two jump places
+nnoremap <leader><leader> :normal! ''<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " SETTINGS
@@ -186,67 +232,6 @@ augroup end
 noremap <C-z> <NOP>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" LEADER
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let mapleader = " "
-
-" Select all
-nnoremap <leader>a ggVG
-
-" Edit/Source vimrc
-nnoremap <leader>ev :split $MYVIMRC<cr>
-nnoremap <leader>sv :source $MYVIMRC<cr>
-
-" Open Command-Line window with history of ...
-" Ex commands
-nnoremap <leader>: q:
-nnoremap q: <NOP>
-" Searches
-nnoremap <leader>/ q/
-nnoremap <leader>? q?
-nnoremap q/ <NOP>
-nnoremap q? <NOP>
-
-" Trim one character off end of current line
-nnoremap <leader>e :normal mzLx`z<CR>
-
-" Trim one word off end of current line
-nnoremap <leader>E :normal mzLdiW`z<CR>
-
-" Go to decl/defn
-nnoremap <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-
-" Visual Block mode
-nnoremap <leader>v <C-v>
-
-" Open explorer
-nnoremap <leader>x :Vexplore<CR>
-
-" Close lists
-nnoremap <leader>c :ccl<CR>:lcl<CR>
-
-" Global replace
-nnoremap <leader>r gD:%s/<C-R>///gc<left><left><left>
-
-" Quick quit
-nnoremap <leader>q :q!<CR>
-
-" Quick toggle last two jump places
-nnoremap <leader><leader> :normal! ''<CR>
-
-" Swap words
-" Forward
-nnoremap <leader>w diwwviwplbhP
-" Backward
-nnoremap <leader>W diwbviwplp
-
-" Swap arguments
-" Forward
-nnoremap <leader>s diwwviwpF,P
-" Backward
-nnoremap <leader>S diwF,bviwpWP
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " SEARCHING
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set hlsearch
@@ -333,8 +318,8 @@ nnoremap k gk
 nnoremap k gk
 
 " Add numbered movements to jump list
-nnoremap <expr> k (v:count > 2 ? "m'" . v:count : '') . 'k'
-nnoremap <expr> j (v:count > 2 ? "m'" . v:count : '') . 'j'
+nnoremap <expr> k (v:count > 2 ? "m'" . v:count : '') . 'gk'
+nnoremap <expr> j (v:count > 2 ? "m'" . v:count : '') . 'gj'
 
 " Recall last command or search
 nnoremap :: :<Up>
@@ -372,6 +357,17 @@ inoremap <C-l> <C-o>$
 " Delete 'til end of line
 inoremap <C-d> <C-o>d$
 inoremap <C-c> <C-o>d$
+
+" Jump to next line
+inoremap <C-o> <ESC>o
+
+" Autoclose
+inoremap ' ''<left>
+inoremap ` ``<left>
+inoremap " ""<left>
+inoremap ( ()<left>
+inoremap [ []<left>
+inoremap { {}<left>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " VISUAL MODE
@@ -432,7 +428,7 @@ augroup V_ReopenAtLastEdit
   autocmd!
   autocmd BufReadPost *
      \ if line("'\"") > 0 && line("'\"") <= line("$") |
-     \   exe "normal! g`\"" |
+     \   exe "normal! g`\" "|
      \ endif
 augroup end
 

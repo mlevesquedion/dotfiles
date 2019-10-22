@@ -88,7 +88,6 @@ alias mv='mv -i'
 alias df='pydf | rg nvme --color never'
 
 # Wrappers
-alias zat=zathura
 alias rmf='rm -rf'
 alias cpr='cp -r'
 alias psa='ps aux'
@@ -140,11 +139,16 @@ eval $(thefuck --alias)
 # HASKELL
 ###############################################################################
 alias stn='. stacknew'
-alias si='stack install'
-alias sg='stack ghci'
+alias sti='stack install'
+alias stg='stack ghci'
+alias sts='stack setup'
+alias stb='stack build'
+alias stt='stack test'
+
 alias gi=ghci
 alias hi=ghci
-alias hr=hrun
+alias hr=runhaskell
+alias hrun=runhaskell
 
 ###############################################################################
 # JEKYLL
