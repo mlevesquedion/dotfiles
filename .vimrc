@@ -261,8 +261,7 @@ nnoremap gn ''
 " CONTROL
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Move by block
-nnoremap <C-j> }
-nnoremap <C-k> {
+nnoremap <C-j> J
 
 " Save
 nnoremap <C-s> :w<cr>
@@ -297,6 +296,12 @@ vnoremap 0 <NOP>
 vnoremap _ <NOP>
 vnoremap $ <NOP>
 
+nnoremap J }
+nnoremap K {
+
+vnoremap J }
+vnoremap K {
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NORMAL MODE
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -307,9 +312,6 @@ nnoremap 0 "0p
 " Yank 'til end of line
 nnoremap Y y$
 
-" Prevent open man page for symbol under cursor
-nnoremap K k
-
 " Behave like C
 nnoremap S C
 
@@ -318,8 +320,8 @@ nnoremap k gk
 nnoremap k gk
 
 " Add numbered movements to jump list
-nnoremap <expr> k (v:count > 2 ? "m'" . v:count : '') . 'gk'
-nnoremap <expr> j (v:count > 2 ? "m'" . v:count : '') . 'gj'
+nnoremap <expr> k (v:count > 2 ? "m'" . v:count . 'k' : 'gk')
+nnoremap <expr> j (v:count > 2 ? "m'" . v:count . 'j' : 'gj')
 
 " Recall last command or search
 nnoremap :: :<Up>
@@ -360,14 +362,6 @@ inoremap <C-c> <C-o>d$
 
 " Jump to next line
 inoremap <C-o> <ESC>o
-
-" Autoclose
-inoremap ' ''<left>
-inoremap ` ``<left>
-inoremap " ""<left>
-inoremap ( ()<left>
-inoremap [ []<left>
-inoremap { {}<left>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " VISUAL MODE

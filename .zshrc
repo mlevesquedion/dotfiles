@@ -133,7 +133,7 @@ alias sha256="shasum -a 256"
 alias sha512="shasum -a 512"
 alias say=spd-say
 alias stats=zsh_stats
-eval $(thefuck --alias)
+alias cleartex='rm *.aux; rm *_latexmk; rm *.log; rm *synctex.gz; rm *.fls'
 
 ###############################################################################
 # HASKELL
@@ -269,6 +269,17 @@ eval $(dbus-launch)
 # Prevent annoying wait when trying to pip install
 pkill gnome-keyring-daemon
 _ignored="$(gnome-keyring-daemon &)"
+
+# Activate fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Set mouse speed
+setmousespeed
+
+# Disable screen sleep
+xset -display :0.0 -dpms
+xset -display :0.0 s off
+xset -display :0.0 s noblank
 
 # Jump to last used directory
 [[ -f "$HOME/.whereami" ]] && cd "$(cat "$HOME/.whereami")"
