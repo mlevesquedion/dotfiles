@@ -58,6 +58,7 @@ alias g=grep
 alias s='sudo $(fc -ln -1)'
 alias t=tree
 alias v='vim -o -n'
+alias w=view
 
 # More Essentials
 alias ev=expr
@@ -70,7 +71,6 @@ alias mx='chmod u+x'
 alias pk=pkill
 alias pks='pkill slack'
 alias pkx='sudo pkill X'
-alias vw=view
 alias clip='xclip -selection clipboard'
 
 # Do it all
@@ -214,6 +214,7 @@ alias gitstat=git-quick-stats
 # GO
 ###############################################################################
 alias gohome="cd $GOSRC"
+alias gh=gohome
 alias gob='go build'
 alias got='go test'
 alias goi='go install'
