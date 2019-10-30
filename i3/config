@@ -109,6 +109,10 @@ bindsym $Mod+Shift+p exec --no-startup-id pactl set-sink-mute 0 toggle && pactl 
 bindsym $Mod+Shift+n exec setxkbmap -layout ca && setxkbmap -option caps:super
 bindsym $Mod+Shift+m exec setxkbmap -layout us && setxkbmap -option caps:super
 
+# Sreen brightness controls
+bindsym $Mod+Shift+u exec lum 1.0
+bindsym $Mod+Shift+y exec lum 0.5
+
 # resize
 bindsym $mod+r mode "resize"
 mode "resize" {

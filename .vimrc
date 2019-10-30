@@ -90,7 +90,7 @@ call vundle#begin()
     Plugin 'mileszs/ack.vim'
 
     " Cool status bar
-    Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+    Plugin 'vim-airline/vim-airline'
 call vundle#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -402,7 +402,7 @@ function! <SID>StripTrailingWhitespace()
 endfun
 augroup V_DeleteWhitespaceOnSave
     autocmd!
-    autocmd BufWritePre * :call <SID>StripTrailingWhitespace()
+    " autocmd BufWritePre * :call <SID>StripTrailingWhitespace()
 augroup end
 
 " Disable the mouse

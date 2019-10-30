@@ -13,8 +13,8 @@ export PATH="$PATH:/home/michael/.gem/ruby/2.5.0/bin"
 export PATH="$PATH:/home/michael/.cabal/bin"
 export EDITOR=vim
 export PAGER=less
-export JDK_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
-export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre
+export JDK_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 
 export DOTFILES="$HOME/dotfiles"
 export VIMRC="$HOME/.vimrc"
@@ -187,10 +187,11 @@ alias ppud='pipenv update'
 ###############################################################################
 # PYTHON
 ###############################################################################
-alias py='ipython3 --no-confirm-exit'
-alias pyi='ipython3 -i --no-confirm-exit'
+alias py='ipython --no-confirm-exit'
+alias pyi='ipython -i --no-confirm-exit'
 alias pt=pytest
-alias python=python3
+# alias python=python3
+# alias python3='python3.7'
 alias pip=pip3
 
 ###############################################################################
@@ -266,21 +267,6 @@ stty -ixon
 
 # Notifications
 eval $(dbus-launch)
-
-# Prevent annoying wait when trying to pip install
-pkill gnome-keyring-daemon
-_ignored="$(gnome-keyring-daemon &)"
-
-# Activate fzf
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# Set mouse speed
-setmousespeed
-
-# Disable screen sleep
-xset -display :0.0 -dpms
-xset -display :0.0 s off
-xset -display :0.0 s noblank
 
 # Jump to last used directory
 [[ -f "$HOME/.whereami" ]] && cd "$(cat "$HOME/.whereami")"
