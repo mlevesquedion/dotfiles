@@ -5,92 +5,92 @@ filetype off
 " Plugins
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-    " Plugin manager, has to be loaded first
-    Plugin 'gmarik/Vundle.vim'
+  " Plugin manager, has to be loaded first
+  Plugin 'gmarik/Vundle.vim'
 
-    " Idris
-    Plugin 'idris-hackers/idris-vim'
+  " Rust
+  Plugin 'rust-lang/rust.vim'
 
-    " Elm
-    Plugin 'ElmCast/elm-vim'
-    let g:elm_format_autosave = 1
+  " Idris
+  " Plugin 'idris-hackers/idris-vim'
 
-    " Formatting
-    Plugin 'Chiel92/vim-autoformat'
-    let g:autoformat_autoindent = 0
-    let g:autoformat_retab = 0
-    let g:autoformat_remove_trailing_spaces = 0
-    augroup V_FormatOnSave
-      autocmd!
-      autocmd BufWrite * :Autoformat
-    augroup end
+  " Elm
+  " Plugin 'ElmCast/elm-vim'
+  " let g:elm_format_autosave = 1
 
-    " Linting
-    Plugin 'dense-analysis/ale'
+  " Formatting
+  Plugin 'Chiel92/vim-autoformat'
+  let g:autoformat_autoindent = 0
+  let g:autoformat_retab = 0
+  let g:autoformat_remove_trailing_spaces = 1
+  augroup V_FormatOnSave
+    autocmd!
+    autocmd BufWritePre * :Autoformat
+  augroup end
 
-    " Autocompletion
-    Plugin 'Valloric/YouCompleteMe'
-    " Do not insert newline when accepting with Enter
-    " inoremap <expr> <CR> pumvisible() ? "\<C-Y>" : "\<CR>"
-    " No preview window
-    set completeopt-=preview
+  " Linting
+  " Plugin 'dense-analysis/ale'
 
-    " Match more than just brackets
-    Plugin 'tmhedberg/matchit'
+  " Autocompletion
+  Plugin 'Valloric/YouCompleteMe'
+  " Do not insert newline when accepting with Enter
+  " inoremap <expr> <CR> pumvisible() ? "\<C-Y>" : "\<CR>"
+  " No preview window
+  set completeopt-=preview
 
-    " Go
-    Plugin 'fatih/vim-go'
-    let g:go_fmt_command = "goimports"
+  " Match more than just brackets
+  Plugin 'tmhedberg/matchit'
 
-    " Git
-    Plugin 'tpope/vim-fugitive'
+  " Go
+  Plugin 'fatih/vim-go'
+  let g:go_fmt_command = "goimports"
 
-    " Syntax highlighting
-    Plugin 'vim-syntastic/syntastic'
-    let g:syntastic_mode_map = { 'passive_filetypes': ['python'] }
-    let g:syntastic_enable_racket_racket_checker = 1
-    Plugin 'nlknguyen/papercolor-theme'
+  " Syntax highlighting
+  Plugin 'vim-syntastic/syntastic'
+  let g:syntastic_mode_map = { 'passive_filetypes': ['python'] }
+  let g:syntastic_enable_racket_racket_checker = 1
+  Plugin 'nlknguyen/papercolor-theme'
 
-    Plugin 'tmhedberg/SimpylFold'
-    Plugin 'tpope/vim-commentary'
+  Plugin 'tmhedberg/SimpylFold'
+  Plugin 'tpope/vim-commentary'
 
-    " Haskell
-    Plugin 'neovimhaskell/haskell-vim'
-    Plugin 'nbouscal/vim-stylish-haskell'
+  " Haskell
+  Plugin 'neovimhaskell/haskell-vim'
+  Plugin 'nbouscal/vim-stylish-haskell'
 
-    " Dracula
-    Plugin 'dracula/vim'
+  " Dracula
+  Plugin 'dracula/vim'
 
-    " Racket
-    Plugin 'wlangstroth/vim-racket'
+  " Racket
+  " Plugin 'wlangstroth/vim-racket'
 
-    " LaTeX
-    Plugin 'lervag/vimtex'
-    let g:tex_flavor='latex'
-    let g:vimtex_quickfix_mode=0
-    let g:vimtex_view_method='zathura'
-    set conceallevel=1
-    let g:tex_conceal='abdmg'
+  " LaTeX
+  Plugin 'lervag/vimtex'
+  let g:tex_flavor='latex'
+  let g:vimtex_view_method='zathura'
+  let g:vimtex_quickfix_mode=0
+  set conceallevel=1
+  let g:tex_conceal='abdmg'
 
-    " Bracket colorizer
-    Plugin 'luochen1990/rainbow'
-    let g:rainbow_active = 1
-    let g:rainbow_conf = {
-    \ 'ctermfgs': ['Magenta', 'Yellow', 'Cyan'],
-    \ }
+  " Bracket colorizer
+  Plugin 'luochen1990/rainbow'
+  let g:rainbow_active = 1
+  let g:rainbow_conf = {
+        \ 'ctermfgs': ['Magenta', 'Yellow', 'Cyan'],
+        \ }
 
-    " Snippets
-    Plugin 'honza/vim-snippets'
-    Plugin 'sirver/ultisnips'
-    let g:UltiSnipsExpandTrigger="<c-j>"
-    let g:UltiSnipsJumpForwardTrigger="<c-j>"
-    let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+  " Snippets
+  Plugin 'honza/vim-snippets'
+  Plugin 'sirver/ultisnips'
+  let g:UltiSnipsExpandTrigger="<c-j>"
+  let g:UltiSnipsJumpForwardTrigger="<c-j>"
+  let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
-    " Ack
-    Plugin 'mileszs/ack.vim'
+  " Ack
+  Plugin 'mileszs/ack.vim'
 
-    " Cool status bar
-    Plugin 'vim-airline/vim-airline'
+  " Cool status bar
+  Plugin 'vim-airline/vim-airline'
 call vundle#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -136,9 +136,6 @@ nnoremap <leader>c :ccl<CR>:lcl<CR>
 " Global replace
 nnoremap <leader>r gD:%s/<C-R>///gc<left><left><left>
 
-" Quick quit
-nnoremap <leader>q :q!<CR>
-
 " Quick toggle last two jump places
 nnoremap <leader><leader> :normal! ''<CR>
 
@@ -183,6 +180,7 @@ set shiftwidth=2
 
 " Show unprintable characters, e.g. EOL
 set list
+set listchars=tab:▸\ ,eol:¬
 
 " Python
 augroup V_Python
@@ -190,12 +188,12 @@ augroup V_Python
   autocmd FileType python highlight TrailingComma ctermbg=red ctermfg=white
   autocmd FileType python match TrailingComma /,$/
   autocmd BufNewFile,BufRead *.py
-      \ setlocal softtabstop=4 |
-      \ setlocal shiftwidth=4 |
-      \ setlocal textwidth=79 |
-      \ setlocal foldmethod=indent |
-      \ setlocal fileformat=unix |
-  " autocmd BufWritePre *.py :!pytest -vv -s
+        \ setlocal softtabstop=4 |
+        \ setlocal shiftwidth=4 |
+        \ setlocal textwidth=79 |
+        \ setlocal foldmethod=indent |
+        \ setlocal fileformat=unix |
+  nnoremap <leader>t :!pytest -vv -s<CR>
 augroup end
 
 augroup V_Golang
@@ -206,12 +204,12 @@ augroup end
 " Text outline files
 augroup V_TextOutline
   autocmd!
-  autocmd BufWrite *.outline :!outgraph %
+  autocmd BufWrite *.outline :!outmind %
   autocmd BufNewFile,BufRead *.outline
-      \ setlocal softtabstop=1 |
-      \ setlocal shiftwidth=1 |
-      \ setlocal foldmethod=indent |
-      \ setlocal fileformat=unix |
+        \ setlocal softtabstop=1 |
+        \ setlocal shiftwidth=1 |
+        \ setlocal foldmethod=indent |
+        \ setlocal fileformat=unix |
 augroup end
 
 " Racket
@@ -230,6 +228,9 @@ augroup end
 
 " Prevent background
 noremap <C-z> <NOP>
+
+" Disable Ex mode (don't need it)
+nnoremap Q :q<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " SEARCHING
@@ -274,7 +275,6 @@ nnoremap <C-v> "+p
 " Undo, Redo
 nnoremap <C-z> u
 nnoremap <C-x> <C-r>
-nnoremap <C-r> <NOP>
 
 " Navigate jump list
 nnoremap <C-h> <C-o>
@@ -308,6 +308,8 @@ vnoremap K {
 " Always paste last yank
 nnoremap ) "0P
 nnoremap 0 "0p
+vnoremap ) "0P
+vnoremap 0 "0p
 
 " Yank 'til end of line
 nnoremap Y y$
@@ -395,14 +397,14 @@ endfunction
 
 " Whitespace
 function! <SID>StripTrailingWhitespace()
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    call cursor(l, c)
+  let l = line(".")
+  let c = col(".")
+  %s/\s\+$//e
+  call cursor(l, c)
 endfun
 augroup V_DeleteWhitespaceOnSave
-    autocmd!
-    " autocmd BufWritePre * :call <SID>StripTrailingWhitespace()
+  autocmd!
+  autocmd BufWritePre * :call <SID>StripTrailingWhitespace()
 augroup end
 
 " Disable the mouse
@@ -421,9 +423,9 @@ augroup end
 augroup V_ReopenAtLastEdit
   autocmd!
   autocmd BufReadPost *
-     \ if line("'\"") > 0 && line("'\"") <= line("$") |
-     \   exe "normal! g`\" "|
-     \ endif
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \   exe "normal! g`\" "|
+        \ endif
 augroup end
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

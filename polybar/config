@@ -28,32 +28,31 @@ alert = #bd2c40
 [bar/top]
 bottom = true
 width = 100%
-height = 27
-radius = 6.0
+height = 25
 fixed-center = false
+
+padding = 1
 
 background = ${colors.background}
 foreground = ${colors.foreground}
 
-line-size = 3
-line-color = #f00
+line-size = 2
 
-border-size = 4
+border-size = 2
 border-color = #00000000
 
-padding-left = 0
-padding-right = 2
-
 module-margin-left = 1
-module-margin-right = 2
+module-margin-right = 1
+
+separator = " | "
 
 font-0 = Courier New:pixelsize=10;1
 font-1 = unifont:fontformat=truetype:size=10:antialias=false;0
 font-2 = "siji:pixelsize=10;1"
 
-modules-left = cpu memory filesystem
+modules-left = cpu nvidia memory filesystem
 modules-center = bwpsm i3
-modules-right = keyboard xbacklight pulseaudio wlan battery date
+modules-right = keyboard pulseaudio wlan battery date
 
 [module/bspwm]
 type = internal/bspwm
@@ -108,19 +107,12 @@ label-urgent = %index%
 label-urgent-background = ${module/bspwm.label-urgent-background}
 label-urgent-padding = ${module/bspwm.label-urgent-padding}
 
-[module/xbacklight]
-type = internal/xbacklight
-format = <label>
-format-underline = ${colors.foreground}
-label = LUM %percentage%%
-
 [module/cpu]
 type = internal/cpu
 interval = 0.5
 format = <label> <ramp-coreload>
 format-prefix = "CPU "
 format-prefix-foreground = ${colors.foreground}
-format-underline = ${colors.foreground}
 label = %percentage:2%%
 format-label-padding = 1
 ramp-coreload-0 = ▁
@@ -153,7 +145,6 @@ type = internal/memory
 interval = 0.5
 format-prefix = "MEM "
 format-prefix-foreground = ${colors.foreground}
-format-underline = ${colors.foreground}
 label = %percentage_used%%
 
 [module/wlan]
@@ -161,21 +152,12 @@ type = internal/network
 interface = wlp0s20f3
 interval = 0.5
 
-format-connected = <ramp-signal> <label-connected>
-format-connected-underline = ${colors.foreground}
-label-connected = %essid%
+format-connected = <label-connected>
+label-connected = NET %essid%
 
-format-disconnected =
-;format-disconnected = <label-disconnected>
-;format-disconnected-underline = ${self.format-connected-underline}
-;label-disconnected = %ifname% disconnected
-;label-disconnected-foreground = ${colors.foreground-alt}
+format-disconnected = <label-disconnected>
+label-disconnected = %ifname%
 
-ramp-signal-0 = 
-ramp-signal-1 = 
-ramp-signal-2 = 
-ramp-signal-3 = 
-ramp-signal-4 = 
 ramp-signal-foreground = ${colors.foreground}
 
 [module/date]
@@ -183,9 +165,7 @@ type = internal/date
 interval = 0.5
 
 date = "%A, %B %d, %Y%"
-time = %H:%M
-
-format-underline = ${colors.foreground}
+time = "%H:%M"
 
 label = %date% %time%
 
@@ -193,7 +173,6 @@ label = %date% %time%
 type = internal/pulseaudio
 
 format-volume = <label-volume>
-format-volume-underline = ${colors.foreground}
 label-volume = VOL %percentage%%
 label-volume-foreground = ${root.foreground}
 
@@ -206,32 +185,8 @@ battery = BAT1
 adapter = ACAD
 full-at = 98
 
-format-charging = <animation-charging> <label-charging>
-format-charging-underline = ${colors.foreground}
-
-format-discharging = <animation-discharging> <label-discharging>
-format-discharging-underline = ${self.format-charging-underline}
-
-format-full-prefix = " "
-format-full-prefix-foreground = ${colors.foreground}
-format-full-underline = ${self.format-charging-underline}
-
-ramp-capacity-0 = 
-ramp-capacity-1 = 
-ramp-capacity-2 = 
-ramp-capacity-foreground = ${colors.foreground}
-
-animation-charging-0 = 
-animation-charging-1 = 
-animation-charging-2 = 
-animation-charging-foreground = ${colors.foreground}
-animation-charging-framerate = 750
-
-animation-discharging-0 = 
-animation-discharging-1 = 
-animation-discharging-2 = 
-animation-discharging-foreground = ${colors.foreground}
-animation-discharging-framerate = 750
+format-charging-prefix = "CHA"
+format-discharging-prefix = DIS
 
 [module/filesystem]
 type = internal/fs
@@ -244,11 +199,14 @@ spacing = 2
 
 format-mounted = <label-mounted>
 label-mounted = %mountpoint% %percentage_used%%
-format-mounted-underline = ${colors.foreground}
 
 [module/keyboard]
 type = internal/xkeyboard
-format-underline = ${colors.foreground}
+
+[module/nvidia]
+type = custom/script
+exec = ~/bin/nvidia-smi.sh
+interval = 1
 
 [settings]
 screenchange-reload = true

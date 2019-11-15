@@ -92,8 +92,8 @@ alias rmf='rm -rf'
 alias cpr='cp -r'
 alias psa='ps aux'
 alias rmd=rmdir
-alias tarc='tar -czvf'
-alias tarx='tar -xzvf'
+alias tarc='tar -cvf'
+alias tarx='tar -xvf'
 alias mkcd=take
 alias path=realpath
 
@@ -134,6 +134,7 @@ alias sha512="shasum -a 512"
 alias say=spd-say
 alias stats=zsh_stats
 alias cleartex='rm *.aux; rm *_latexmk; rm *.log; rm *synctex.gz; rm *.fls'
+alias diff=diff-wrapper
 
 ###############################################################################
 # HASKELL
@@ -262,6 +263,10 @@ function cd {
     builtin cd "$@" && ls -F
 }
 
+# Prevent annoying wait when trying to pip install
+pkill gnome-keyring-daemon
+_ignored="$(gnome-keyring-daemon &)"
+
 # Disable <C-s> (suspend)
 stty -ixon
 
@@ -270,3 +275,19 @@ eval $(dbus-launch)
 
 # Jump to last used directory
 [[ -f "$HOME/.whereami" ]] && cd "$(cat "$HOME/.whereami")"
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/michael/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/michael/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/michael/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/michael/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
