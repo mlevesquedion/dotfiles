@@ -85,6 +85,7 @@ alias gal='alias | grep'
 # Better defaults
 alias cp='cp -i'
 alias mv='mv -i'
+alias rm='rm -i'
 alias df='pydf | rg nvme --color never'
 
 # Wrappers
@@ -145,11 +146,13 @@ alias stg='stack ghci'
 alias sts='stack setup'
 alias stb='stack build'
 alias stt='stack test'
+alias str='stack run'
 
 alias gi=ghci
 alias hi=ghci
 alias hr=runhaskell
 alias hrun=runhaskell
+alias dt=doctest
 
 ###############################################################################
 # JEKYLL
@@ -191,8 +194,7 @@ alias ppud='pipenv update'
 alias py='ipython --no-confirm-exit'
 alias pyi='ipython -i --no-confirm-exit'
 alias pt=pytest
-# alias python=python3
-# alias python3='python3.7'
+alias python=python3.6
 alias pip=pip3
 
 ###############################################################################
@@ -278,16 +280,15 @@ eval $(dbus-launch)
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/michael/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/michael/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/michael/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/michael/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
+# __conda_setup="$('/home/michael/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+# if [ $? -eq 0 ]; then
+#     eval "$__conda_setup"
+# else
+#     if [ -f "/home/michael/anaconda3/etc/profile.d/conda.sh" ]; then
+#         . "/home/michael/anaconda3/etc/profile.d/conda.sh"
+#     else
+#         export PATH="/home/michael/anaconda3/bin:$PATH"
+#     fi
+# fi
+# unset __conda_setup
 # <<< conda initialize <<<
-

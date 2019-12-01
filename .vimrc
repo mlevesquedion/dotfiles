@@ -5,92 +5,100 @@ filetype off
 " Plugins
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-  " Plugin manager, has to be loaded first
-  Plugin 'gmarik/Vundle.vim'
+" Plugin manager, has to be loaded first
+Plugin 'gmarik/Vundle.vim'
 
-  " Rust
-  Plugin 'rust-lang/rust.vim'
+" Rust
+Plugin 'rust-lang/rust.vim'
 
-  " Idris
-  " Plugin 'idris-hackers/idris-vim'
+" Idris
+" Plugin 'idris-hackers/idris-vim'
 
-  " Elm
-  " Plugin 'ElmCast/elm-vim'
-  " let g:elm_format_autosave = 1
+" Elm
+" Plugin 'ElmCast/elm-vim'
+" let g:elm_format_autosave = 1
 
-  " Formatting
-  Plugin 'Chiel92/vim-autoformat'
-  let g:autoformat_autoindent = 0
-  let g:autoformat_retab = 0
-  let g:autoformat_remove_trailing_spaces = 1
-  augroup V_FormatOnSave
-    autocmd!
-    autocmd BufWritePre * :Autoformat
-  augroup end
+" Formatting
+Plugin 'Chiel92/vim-autoformat'
+let g:autoformat_autoindent = 0
+let g:autoformat_retab = 0
+let g:autoformat_remove_trailing_spaces = 1
+augroup V_FormatOnSave
+  autocmd!
+  autocmd BufWritePre * :Autoformat
+augroup end
 
-  " Linting
-  " Plugin 'dense-analysis/ale'
+" Linting
+Plugin 'dense-analysis/ale'
+let g:ale_linters = {'python': []}
 
-  " Autocompletion
-  Plugin 'Valloric/YouCompleteMe'
-  " Do not insert newline when accepting with Enter
-  " inoremap <expr> <CR> pumvisible() ? "\<C-Y>" : "\<CR>"
-  " No preview window
-  set completeopt-=preview
+" Autocompletion
+Plugin 'Valloric/YouCompleteMe'
+" Do not insert newline when accepting with Enter
+" inoremap <expr> <CR> pumvisible() ? "\<C-Y>" : "\<CR>"
+" No preview window
+set completeopt-=preview
 
-  " Match more than just brackets
-  Plugin 'tmhedberg/matchit'
+" Match more than just brackets
+Plugin 'tmhedberg/matchit'
 
-  " Go
-  Plugin 'fatih/vim-go'
-  let g:go_fmt_command = "goimports"
+" Go
+Plugin 'fatih/vim-go'
+let g:go_fmt_command = "goimports"
 
-  " Syntax highlighting
-  Plugin 'vim-syntastic/syntastic'
-  let g:syntastic_mode_map = { 'passive_filetypes': ['python'] }
-  let g:syntastic_enable_racket_racket_checker = 1
-  Plugin 'nlknguyen/papercolor-theme'
+" Syntax highlighting
+Plugin 'vim-syntastic/syntastic'
+let g:syntastic_mode_map = { 'passive_filetypes': ['python'] }
+let g:syntastic_enable_racket_racket_checker = 1
+Plugin 'nlknguyen/papercolor-theme'
 
-  Plugin 'tmhedberg/SimpylFold'
-  Plugin 'tpope/vim-commentary'
+Plugin 'tmhedberg/SimpylFold'
+Plugin 'tpope/vim-commentary'
 
-  " Haskell
-  Plugin 'neovimhaskell/haskell-vim'
-  Plugin 'nbouscal/vim-stylish-haskell'
+" Easily manipulate surrounding characters
+Plugin 'tpope/vim-surround'
+" Convenient shortcut
+nmap t ysiw
+" For coherence
+vmap T S
 
-  " Dracula
-  Plugin 'dracula/vim'
+" Haskell
+Plugin 'neovimhaskell/haskell-vim'
+Plugin 'nbouscal/vim-stylish-haskell'
 
-  " Racket
-  " Plugin 'wlangstroth/vim-racket'
+" Dracula
+Plugin 'dracula/vim'
 
-  " LaTeX
-  Plugin 'lervag/vimtex'
-  let g:tex_flavor='latex'
-  let g:vimtex_view_method='zathura'
-  let g:vimtex_quickfix_mode=0
-  set conceallevel=1
-  let g:tex_conceal='abdmg'
+" Racket
+" Plugin 'wlangstroth/vim-racket'
 
-  " Bracket colorizer
-  Plugin 'luochen1990/rainbow'
-  let g:rainbow_active = 1
-  let g:rainbow_conf = {
-        \ 'ctermfgs': ['Magenta', 'Yellow', 'Cyan'],
-        \ }
+" LaTeX
+Plugin 'lervag/vimtex'
+let g:tex_flavor='latex'
+let g:vimtex_view_method='zathura'
+let g:vimtex_quickfix_mode=0
+set conceallevel=1
+let g:tex_conceal='abdmg'
 
-  " Snippets
-  Plugin 'honza/vim-snippets'
-  Plugin 'sirver/ultisnips'
-  let g:UltiSnipsExpandTrigger="<c-j>"
-  let g:UltiSnipsJumpForwardTrigger="<c-j>"
-  let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+" Bracket colorizer
+Plugin 'luochen1990/rainbow'
+let g:rainbow_active = 1
+let g:rainbow_conf = {
+      \ 'ctermfgs': ['Magenta', 'Yellow', 'Cyan'],
+      \ }
 
-  " Ack
-  Plugin 'mileszs/ack.vim'
+" Snippets
+Plugin 'honza/vim-snippets'
+Plugin 'sirver/ultisnips'
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
-  " Cool status bar
-  Plugin 'vim-airline/vim-airline'
+" Ack
+Plugin 'mileszs/ack.vim'
+
+" Cool status bar
+Plugin 'vim-airline/vim-airline'
 call vundle#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -169,6 +177,10 @@ set undofile
 set wildmenu
 set wildmode=full
 
+" Cursor
+set cursorline
+set cursorcolumn
+
 " Line numbers
 set number
 set relativenumber
@@ -230,7 +242,7 @@ augroup end
 noremap <C-z> <NOP>
 
 " Disable Ex mode (don't need it)
-nnoremap Q :q<CR>
+nnoremap Q :q!<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " SEARCHING
@@ -339,6 +351,10 @@ nnoremap R <NOP>
 " Sane matching
 " Can't use nnoremap, otherwise won't work with matchit Plugin
 nmap <TAB> %
+
+" Comment (<C-/>)
+nmap <C-_> gcc
+vmap <C-_> gc
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " INSERT MODE
