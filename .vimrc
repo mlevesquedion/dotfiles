@@ -5,18 +5,24 @@ filetype off
 " Plugins
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
+
 " Plugin manager, has to be loaded first
 Plugin 'gmarik/Vundle.vim'
 
+" Additional text objects
+Plugin 'wellle/targets.vim'
+
+" Visual star search
+Plugin 'bronson/vim-visual-star-search'
+
+" Better [fF] and [tT]
+Plugin 'rhysd/clever-f.vim'
+
+" Registers
+Plugin 'junegunn/vim-peekaboo'
+
 " Rust
 Plugin 'rust-lang/rust.vim'
-
-" Idris
-" Plugin 'idris-hackers/idris-vim'
-
-" Elm
-" Plugin 'ElmCast/elm-vim'
-" let g:elm_format_autosave = 1
 
 " Formatting
 Plugin 'Chiel92/vim-autoformat'
@@ -30,7 +36,7 @@ augroup end
 
 " Linting
 Plugin 'dense-analysis/ale'
-let g:ale_linters = {'python': []}
+" let g:ale_linters = {'python': []}
 
 " Autocompletion
 Plugin 'Valloric/YouCompleteMe'
@@ -58,9 +64,16 @@ Plugin 'tpope/vim-commentary'
 " Easily manipulate surrounding characters
 Plugin 'tpope/vim-surround'
 " Convenient shortcut
-nmap t ysiw
-" For coherence
-vmap T S
+nmap m ysiw
+vmap m S
+
+" Distraction free zone
+Plugin 'junegunn/goyo.vim'
+Plugin 'junegunn/limelight.vim'
+augroup V_NoDistraction
+  autocmd! User GoyoEnter Limelight
+  autocmd! User GoyoLeave Limelight!
+augroup end
 
 " Haskell
 Plugin 'neovimhaskell/haskell-vim'
@@ -69,12 +82,11 @@ Plugin 'nbouscal/vim-stylish-haskell'
 " Dracula
 Plugin 'dracula/vim'
 
-" Racket
-" Plugin 'wlangstroth/vim-racket'
-
 " LaTeX
 Plugin 'lervag/vimtex'
 let g:tex_flavor='latex'
+let g:vimtex_latexmk_callback = 1
+let g:vimtex_latexmk_continuous = 1
 let g:vimtex_view_method='zathura'
 let g:vimtex_quickfix_mode=0
 set conceallevel=1
@@ -99,6 +111,12 @@ Plugin 'mileszs/ack.vim'
 
 " Cool status bar
 Plugin 'vim-airline/vim-airline'
+
+" Plugin 'wlangstroth/vim-racket'
+" Plugin 'idris-hackers/idris-vim'
+" Plugin 'ElmCast/elm-vim'
+" let g:elm_format_autosave = 1
+
 call vundle#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -150,7 +168,6 @@ nnoremap <leader><leader> :normal! ''<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " SETTINGS
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set t_co=256
 set background=dark
 colorscheme dracula
 syntax on
@@ -235,7 +252,7 @@ augroup end
 " LaTeX
 augroup V_LaTeX
   autocmd!
-  autocmd BufWritePre *.tex :VimtexCompile
+  autocmd BufWritePost *.tex :VimtexCompile
 augroup end
 
 " Prevent background
@@ -334,8 +351,8 @@ nnoremap k gk
 nnoremap k gk
 
 " Add numbered movements to jump list
-nnoremap <expr> k (v:count > 2 ? "m'" . v:count . 'k' : 'gk')
-nnoremap <expr> j (v:count > 2 ? "m'" . v:count . 'j' : 'gj')
+nnoremap <expr> k (v:count > 1 ? "m'" . v:count . 'k' : 'gk')
+nnoremap <expr> j (v:count > 1 ? "m'" . v:count . 'j' : 'gj')
 
 " Recall last command or search
 nnoremap :: :<Up>
@@ -345,7 +362,7 @@ nnoremap ?? ?<Up>
 " Select last pasted text
 noremap gp `[v`]
 
-" Prevent Replace mode
+" Prevent replace mode
 nnoremap R <NOP>
 
 " Sane matching

@@ -131,7 +131,7 @@ mode "resize" {
 bindsym $Mod+d exec rofi -show drun
 
 # suspend
-bindsym $Mod+S exec systemctl suspend
+bindsym Ctrl+$Mod+S exec systemctl suspend
 
 # find window by name
 bindsym $Mod+G exec rofi -show window

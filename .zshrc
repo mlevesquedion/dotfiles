@@ -78,23 +78,20 @@ alias ba='bat *'
 alias ea='e *'
 alias eea=". ~/bin/ee *"
 alias oa='openall *'
-alias rma='rm *'
 alias va='vim -o -n *'
 alias gal='alias | grep'
 
 # Better defaults
 alias cp='cp -i'
 alias mv='mv -i'
-alias rm='rm -i'
+alias rm=rm-wrapper
 alias df='pydf | rg nvme --color never'
 
 # Wrappers
 alias rmf='rm -rf'
-alias cpr='cp -r'
-alias psa='ps aux'
-alias rmd=rmdir
 alias tarc='tar -cvf'
 alias tarx='tar -xvf'
+alias diff=diff-wrapper
 alias mkcd=take
 alias path=realpath
 
@@ -135,7 +132,6 @@ alias sha512="shasum -a 512"
 alias say=spd-say
 alias stats=zsh_stats
 alias cleartex='rm *.aux; rm *_latexmk; rm *.log; rm *synctex.gz; rm *.fls'
-alias diff=diff-wrapper
 
 ###############################################################################
 # HASKELL
@@ -191,10 +187,11 @@ alias ppud='pipenv update'
 ###############################################################################
 # PYTHON
 ###############################################################################
-alias py='ipython --no-confirm-exit'
-alias pyi='ipython -i --no-confirm-exit'
-alias pt=pytest
+alias pi='ipython --TerminalInteractiveShell.editing_mode=vi --no-confirm-exit'
+alias ip='ipython --TerminalInteractiveShell.editing_mode=vi --no-confirm-exit'
+alias p=python3.6
 alias python=python3.6
+alias pt=pytest
 alias pip=pip3
 
 ###############################################################################
@@ -277,6 +274,9 @@ eval $(dbus-launch)
 
 # Jump to last used directory
 [[ -f "$HOME/.whereami" ]] && cd "$(cat "$HOME/.whereami")"
+
+# Create
+[[ ! -e "/tmp/deleted" ]] && mkdir /tmp/deleted
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
