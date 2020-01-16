@@ -19,7 +19,10 @@ Plugin 'bronson/vim-visual-star-search'
 Plugin 'rhysd/clever-f.vim'
 
 " Registers
-Plugin 'junegunn/vim-peekaboo'
+" Plugin 'junegunn/vim-peekaboo'
+
+" Templates
+Plugin 'tibabit/vim-templates'
 
 " Rust
 Plugin 'rust-lang/rust.vim'
@@ -37,6 +40,7 @@ augroup end
 " Linting
 Plugin 'dense-analysis/ale'
 " let g:ale_linters = {'python': []}
+let g:ale_echo_cursor = 0  " prevent cursor from disappearing on lines with error highlights
 
 " Autocompletion
 Plugin 'Valloric/YouCompleteMe'
@@ -85,9 +89,9 @@ Plugin 'dracula/vim'
 " LaTeX
 Plugin 'lervag/vimtex'
 let g:tex_flavor='latex'
-let g:vimtex_latexmk_callback = 1
-let g:vimtex_latexmk_continuous = 1
-let g:vimtex_view_method='zathura'
+" let g:vimtex_latexmk_callback = 1
+" let g:vimtex_latexmk_continuous = 1
+" let g:vimtex_view_method='zathura'
 let g:vimtex_quickfix_mode=0
 set conceallevel=1
 let g:tex_conceal='abdmg'
@@ -103,8 +107,8 @@ let g:rainbow_conf = {
 Plugin 'honza/vim-snippets'
 Plugin 'sirver/ultisnips'
 let g:UltiSnipsExpandTrigger="<c-j>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+let g:UltiSnipsJumpForwardTrigger="<c-k>"
+let g:UltiSnipsJumpBackwardTrigger="<c-l>"
 
 " Ack
 Plugin 'mileszs/ack.vim'
@@ -214,8 +218,6 @@ set listchars=tab:▸\ ,eol:¬
 " Python
 augroup V_Python
   autocmd!
-  autocmd FileType python highlight TrailingComma ctermbg=red ctermfg=white
-  autocmd FileType python match TrailingComma /,$/
   autocmd BufNewFile,BufRead *.py
         \ setlocal softtabstop=4 |
         \ setlocal shiftwidth=4 |
@@ -249,10 +251,15 @@ augroup V_Racket
   autocmd filetype racket set autoindent
 augroup end
 
-" LaTeX
+" LaTeX - latex
 augroup V_LaTeX
+  autocmd BufNewFile,BufRead *.tex
+  \ setlocal softtabstop=1 |
+  \ setlocal shiftwidth=1 |
+  \ setlocal foldmethod=indent |
+  \ setlocal fileformat=unix |
   autocmd!
-  autocmd BufWritePost *.tex :VimtexCompile
+  autocmd BufWritePost *.tex silent! execute "!latexmk % --pdf && nohup evince %:t:r.pdf >/dev/null 2>&1 &" | redraw!
 augroup end
 
 " Prevent background
@@ -529,10 +536,13 @@ inoremap <C-f>^ <C-o>dF^<C-o>x
 inoremap <C-f>_ <C-o>dF_<C-o>x
 inoremap <C-f>` <C-o>dF`<C-o>x
 inoremap <C-f>a <C-o>dFa<C-o>x
+inoremap <C-f>à <C-o>dFà<C-o>x
 inoremap <C-f>b <C-o>dFb<C-o>x
 inoremap <C-f>c <C-o>dFc<C-o>x
 inoremap <C-f>d <C-o>dFd<C-o>x
 inoremap <C-f>e <C-o>dFe<C-o>x
+inoremap <C-f>é <C-o>dFé<C-o>x
+inoremap <C-f>è <C-o>dFè<C-o>x
 inoremap <C-f>f <C-o>dFf<C-o>x
 inoremap <C-f>g <C-o>dFg<C-o>x
 inoremap <C-f>h <C-o>dFh<C-o>x

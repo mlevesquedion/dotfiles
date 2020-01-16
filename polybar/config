@@ -52,7 +52,7 @@ font-2 = "siji:pixelsize=11;1"
 
 modules-left = cpu nvidia memory filesystem
 modules-center = bwpsm i3
-modules-right = keyboard pulseaudio wlan battery date
+modules-right = keyboard pulseaudio wlan battery
 
 [module/bspwm]
 type = internal/bspwm

@@ -70,7 +70,6 @@ alias fdir='fd -t d'
 alias mx='chmod u+x'
 alias pk=pkill
 alias pks='pkill slack'
-alias pkx='sudo pkill X'
 alias clip='xclip -selection clipboard'
 
 # Do it all
@@ -111,9 +110,9 @@ alias polycfg="vim ~/.config/polybar/config"
 
 # Temp files
 alias ct='take /tmp/$RANDOM'
-alias vt='vim $RANDOM'
-alias ctvt='ct && vt'
-alias vtm='vim /tmp/$RANDOM.md'
+alias vt='ct && v $RANDOM'
+alias vtx='ct && v $RANDOM.tex'
+alias vtm='ct && v /tmp/$RANDOM.md'
 
 # Todos
 alias td='vim ~/Documents/TODOS/todo.md'
@@ -132,6 +131,8 @@ alias sha512="shasum -a 512"
 alias say=spd-say
 alias stats=zsh_stats
 alias cleartex='rm *.aux; rm *_latexmk; rm *.log; rm *synctex.gz; rm *.fls'
+alias docker='sudo docker'
+alias ate=date
 
 ###############################################################################
 # HASKELL
@@ -191,8 +192,10 @@ alias pi='ipython --TerminalInteractiveShell.editing_mode=vi --no-confirm-exit'
 alias ip='ipython --TerminalInteractiveShell.editing_mode=vi --no-confirm-exit'
 alias p=python3.6
 alias python=python3.6
-alias pt=pytest
+alias pt=pytest -vv --doctest-modules
 alias pip=pip3
+alias pipi='pip3 install --user'
+alias wp='watch -n 0.8 python3'
 
 ###############################################################################
 # C
@@ -232,6 +235,13 @@ source $HOME/.cargo/env
 # alias cf="cargo fix"
 
 ###############################################################################
+# RUBY
+###############################################################################
+alias irb=pry
+alias gi='gem install --user'
+alias ru='ruby -I.'
+
+###############################################################################
 # ERLANG
 ###############################################################################
 export ERL_AFLAGS="-kernel shell_history enabled"
@@ -246,6 +256,8 @@ alias :q!=exit
 ###############################################################################
 # KEYBINDINGS
 ###############################################################################
+bindkey "^P" up-history  # readline compatibility
+bindkey "^N" down-history  # readline compatibility
 bindkey "^K" up-history
 bindkey "^J" down-history
 bindkey "^A" history-incremental-search-backward

@@ -17,6 +17,8 @@ exec_always greenclip daemon
 # mouse focus
 focus_follows_mouse no
 
+focus_on_window_activation none
+
 ################################################################################
 # STYLE
 ################################################################################
@@ -111,7 +113,8 @@ bindsym $Mod+Shift+m exec setxkbmap -layout us && setxkbmap -option caps:super
 
 # Sreen brightness controls
 bindsym $Mod+Shift+u exec lum 1.0
-bindsym $Mod+Shift+y exec lum 0.5
+bindsym $Mod+Shift+y exec lum 0.4
+bindsym $Mod+Shift+t exec lum 0.0
 
 # resize
 bindsym $mod+r mode "resize"
