@@ -6,6 +6,13 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
+" Combinatorial Optimization
+Plugin 'vale1410/vim-minizinc'
+augroup V_MiniZinc
+  nnoremap <C-m> :!minizinc %<CR>
+  nnoremap <C-n> :!minizinc -a %<CR>
+augroup end
+
 " Plugin manager, has to be loaded first
 Plugin 'gmarik/Vundle.vim'
 
@@ -17,6 +24,9 @@ Plugin 'bronson/vim-visual-star-search'
 
 " Better [fF] and [tT]
 Plugin 'rhysd/clever-f.vim'
+
+" Doesn't work right
+" Plugin 'neoclide/coc.nvim'
 
 " Registers
 " Plugin 'junegunn/vim-peekaboo'
@@ -39,7 +49,7 @@ augroup end
 
 " Linting
 Plugin 'dense-analysis/ale'
-" let g:ale_linters = {'python': []}
+let g:ale_linters = {'python': []}
 let g:ale_echo_cursor = 0  " prevent cursor from disappearing on lines with error highlights
 
 " Autocompletion
@@ -163,9 +173,6 @@ nnoremap <leader>x :Vexplore<CR>
 " Close lists
 nnoremap <leader>c :ccl<CR>:lcl<CR>
 
-" Global replace
-nnoremap <leader>r gD:%s/<C-R>///gc<left><left><left>
-
 " Quick toggle last two jump places
 nnoremap <leader><leader> :normal! ''<CR>
 
@@ -198,6 +205,23 @@ set undofile
 set wildmenu
 set wildmode=full
 
+" CoC
+" set nobackup
+" set nowritebackup
+" set cmdheight=2
+" set updatetime=300
+" set shortmess+=c
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
+" inoremap <silent><expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" function! s:check_back_space() abort
+"   let col = col('.') - 1
+"   return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
+" nmap <silent> gd <Plug>(coc-definition)
+
 " Cursor
 set cursorline
 set cursorcolumn
@@ -225,6 +249,7 @@ augroup V_Python
         \ setlocal foldmethod=indent |
         \ setlocal fileformat=unix |
   nnoremap <leader>t :!pytest -vv -s<CR>
+  nnoremap <C-m> :!python3 %<CR>
 augroup end
 
 augroup V_Golang
@@ -249,6 +274,12 @@ augroup V_Racket
   autocmd BufReadPost *.rkt,*.rktl set filetype=racket
   autocmd filetype racket set lisp
   autocmd filetype racket set autoindent
+augroup end
+
+" Graphivz
+augroup V_Graphviz
+  autocmd!
+  autocmd BufWritePost *.dot silent! execute "!dot % -Tpdf > %.pdf && nohup evince %.pdf >/dev/null 2>&1 &" | redraw!
 augroup end
 
 " LaTeX - latex
@@ -360,6 +391,8 @@ nnoremap k gk
 " Add numbered movements to jump list
 nnoremap <expr> k (v:count > 1 ? "m'" . v:count . 'k' : 'gk')
 nnoremap <expr> j (v:count > 1 ? "m'" . v:count . 'j' : 'gj')
+nnoremap gj j
+nnoremap gk k
 
 " Recall last command or search
 nnoremap :: :<Up>
@@ -379,6 +412,9 @@ nmap <TAB> %
 " Comment (<C-/>)
 nmap <C-_> gcc
 vmap <C-_> gc
+
+" Global replace
+nnoremap <leader>R gD:%s/<C-R>///gc<left><left>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " INSERT MODE

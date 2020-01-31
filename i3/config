@@ -5,7 +5,7 @@
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # wallpaper
-exec_always feh --bg-scale /home/michael/Documents/Pictures/03036_emeraldmorainelake_2560x1440.jpg
+exec_always feh --bg-scale /home/michael/Pictures/wallpaper.jpg
 
 # clipboard manager
 exec_always greenclip daemon
@@ -113,7 +113,7 @@ bindsym $Mod+Shift+m exec setxkbmap -layout us && setxkbmap -option caps:super
 
 # Sreen brightness controls
 bindsym $Mod+Shift+u exec lum 1.0
-bindsym $Mod+Shift+y exec lum 0.4
+bindsym $Mod+Shift+y exec lum 0.6
 bindsym $Mod+Shift+t exec lum 0.0
 
 # resize

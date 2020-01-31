@@ -65,11 +65,11 @@ alias ev=expr
 alias ee=". ~/bin/ee"
 alias tk=take
 alias tf='tree -i -f'
-alias jn='jupyter notebook'
 alias fdir='fd -t d'
 alias mx='chmod u+x'
 alias pk=pkill
 alias pks='pkill slack'
+alias pkj='pkill jupyter'
 alias clip='xclip -selection clipboard'
 
 # Do it all
@@ -79,6 +79,9 @@ alias eea=". ~/bin/ee *"
 alias oa='openall *'
 alias va='vim -o -n *'
 alias gal='alias | grep'
+
+# Combinatorial optimization
+alias mz=minizinc
 
 # Better defaults
 alias cp='cp -i'
@@ -133,6 +136,7 @@ alias stats=zsh_stats
 alias cleartex='rm *.aux; rm *_latexmk; rm *.log; rm *synctex.gz; rm *.fls'
 alias docker='sudo docker'
 alias ate=date
+alias te=date
 
 ###############################################################################
 # HASKELL
@@ -289,18 +293,3 @@ eval $(dbus-launch)
 
 # Create
 [[ ! -e "/tmp/deleted" ]] && mkdir /tmp/deleted
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-# __conda_setup="$('/home/michael/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-# if [ $? -eq 0 ]; then
-#     eval "$__conda_setup"
-# else
-#     if [ -f "/home/michael/anaconda3/etc/profile.d/conda.sh" ]; then
-#         . "/home/michael/anaconda3/etc/profile.d/conda.sh"
-#     else
-#         export PATH="/home/michael/anaconda3/bin:$PATH"
-#     fi
-# fi
-# unset __conda_setup
-# <<< conda initialize <<<
