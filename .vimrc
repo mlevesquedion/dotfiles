@@ -9,8 +9,9 @@ call vundle#begin()
 " Combinatorial Optimization
 Plugin 'vale1410/vim-minizinc'
 augroup V_MiniZinc
-  nnoremap <C-m> :!minizinc %<CR>
-  nnoremap <C-n> :!minizinc -a %<CR>
+  autocmd!
+  autocmd BufNewFile,BufRead *.mzn nnoremap <buffer> <C-m> :!minizinc % -s --solver chuffed<CR>
+  autocmd BufNewFile,BufRead *.mzn nnoremap <buffer> <C-n> :!minizinc % -a -s --solver chuffed<CR>
 augroup end
 
 " Plugin manager, has to be loaded first
@@ -248,8 +249,8 @@ augroup V_Python
         \ setlocal textwidth=79 |
         \ setlocal foldmethod=indent |
         \ setlocal fileformat=unix |
-  nnoremap <leader>t :!pytest -vv -s<CR>
-  nnoremap <C-m> :!python3 %<CR>
+  autocmd BufNewFile,BufRead *.py nnoremap <buffer> <C-m> :!python3 %<CR>
+  autocmd BufNewFile,BufRead *.py nnoremap <buffer> <C-n> :!pytest -vv -s<CR>
 augroup end
 
 augroup V_Golang
@@ -291,6 +292,7 @@ augroup V_LaTeX
   \ setlocal fileformat=unix |
   autocmd!
   autocmd BufWritePost *.tex silent! execute "!latexmk % --pdf && nohup evince %:t:r.pdf >/dev/null 2>&1 &" | redraw!
+  autocmd VimLeave *.tex silent! execute "!rm *aux; rm *latexmk; rm *log; rm *syntex.gz; rm *.fls"
 augroup end
 
 " Prevent background
