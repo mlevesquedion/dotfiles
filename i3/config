@@ -23,7 +23,7 @@ focus_on_window_activation none
 # STYLE
 ################################################################################
 
-set $bg-color 	         #aa42f4
+set $bg-color            #aa42f4
 set $inactive-bg-color   #2b113d
 set $text-color          #f0f0f0
 set $inactive-text-color #666666
@@ -119,7 +119,7 @@ bindsym $Mod+Shift+t exec lum 0.0
 # resize
 bindsym $mod+r mode "resize"
 mode "resize" {
-    bindsym $left       resize shrink width 10 px or 10 ppt
+  bindsym $left       resize shrink width 10 px or 10 ppt
     bindsym $down       resize shrink height 10 px or 10 ppt
     bindsym $up         resize grow height 10 px or 10 ppt
     bindsym $right      resize grow width 10 px or 10 ppt
@@ -151,6 +151,9 @@ floating_modifier $mod
 
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
+
+# start an ipython terminal
+bindsym $mod+Shift+Return exec i3-sensible-terminal -e "ipython"
 
 # kill focused window
 bindsym $mod+q kill
@@ -223,6 +226,4 @@ bindsym $mod+Shift+0 move container to workspace $ws10
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
-# exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 

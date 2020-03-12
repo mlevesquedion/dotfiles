@@ -25,6 +25,8 @@ export POLYBARCFG="$CONFIG/polybar"
 export ROFICFG="$CONFIG/rofi"
 export DUNSTCFG="$CONFIG/dunst"
 
+export DOW="$HOME/Downloads/"
+
 # Save last directory so we can jump to it
 export PROMPT_COMMAND="pwd > $HOME/.whereami"
 precmd() { eval "$PROMPT_COMMAND" }
@@ -36,11 +38,11 @@ ZSH_THEME="mlevesquedion"
 
 autoload -U compinit && compinit -u
 plugins=(
-  git
-  mvn
-  z
-  zsh-syntax-highlighting
-  zsh-autosuggestions
+colored-man-pages
+git
+z
+zsh-syntax-highlighting
+zsh-autosuggestions
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -52,12 +54,15 @@ source $(dirname $(gem which colorls))/tab_complete.sh
 # Essentials
 alias a=ack
 alias b=bat
+alias c=cat
+alias f=fzf
 alias i='sudo apt install'
 alias o=openall
 alias g=grep
 alias s='sudo $(fc -ln -1)'
 alias t=tree
 alias v='vim -o -n'
+alias vf='vim -o -n `fzf`'
 alias w=view
 
 # More Essentials
@@ -80,14 +85,14 @@ alias oa='openall *'
 alias va='vim -o -n *'
 alias gal='alias | grep'
 
-# Combinatorial optimization
+# Constraint programming
 alias mz=minizinc
 
 # Better defaults
 alias cp='cp -i'
 alias mv='mv -i'
 alias rm=rm-wrapper
-alias df='pydf | rg nvme --color never'
+alias df='pydf'
 
 # Wrappers
 alias rmf='rm -rf'
@@ -125,7 +130,7 @@ alias ankify='python3 /home/michael/Development/Python/md_to_anki/md_to_anki.py'
 alias batt="acpi -b"
 alias cls=clear
 alias empty='sed -i -n G'
-alias opam="OPAMROOT=~/.opam2 /home/michael/.opam/system/lib/opam-devel/opam"
+# alias opam="OPAMROOT=~/.opam2 /home/michael/.opam/system/lib/opam-devel/opam"
 alias rebar=rebar3
 alias rkt='racket'
 alias sc='shellcheck'
@@ -133,27 +138,30 @@ alias sha256="shasum -a 256"
 alias sha512="shasum -a 512"
 alias say=spd-say
 alias stats=zsh_stats
-alias cleartex='rm *.aux; rm *_latexmk; rm *.log; rm *synctex.gz; rm *.fls'
+alias cleartex='rm *.aux; rm *_latexmk; rm *.log; rm *synctex.gz; rm *.fls; rm *.out'
 alias docker='sudo docker'
+alias da=date
+alias dat=date
 alias ate=date
 alias te=date
+alias chrome=google-chrome
 
 ###############################################################################
 # HASKELL
 ###############################################################################
-alias stn='. stacknew'
-alias sti='stack install'
-alias stg='stack ghci'
-alias sts='stack setup'
-alias stb='stack build'
-alias stt='stack test'
-alias str='stack run'
+# alias stn='. stacknew'
+# alias sti='stack install'
+# alias stg='stack ghci'
+# alias sts='stack setup'
+# alias stb='stack build'
+# alias stt='stack test'
+# alias str='stack run'
 
-alias gi=ghci
-alias hi=ghci
-alias hr=runhaskell
-alias hrun=runhaskell
-alias dt=doctest
+# alias gi=ghci
+# alias hi=ghci
+# alias hr=runhaskell
+# alias hrun=runhaskell
+# alias dt=doctest
 
 ###############################################################################
 # JEKYLL
@@ -170,8 +178,8 @@ alias mvp='mvn clean package'
 ###############################################################################
 # OPAM CONFIGURATION
 ###############################################################################
-. /home/michael/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
-eval `opam config env`
+# . /home/michael/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+# eval `opam config env`
 
 ###############################################################################
 # PIPENV
@@ -195,6 +203,8 @@ alias ppud='pipenv update'
 alias pi='ipython --TerminalInteractiveShell.editing_mode=vi --no-confirm-exit'
 alias ip='ipython --TerminalInteractiveShell.editing_mode=vi --no-confirm-exit'
 alias p=python3.6
+alias p3=python3.6
+alias p8=python3.8
 alias python=python3.6
 alias pt=pytest -vv --doctest-modules
 alias pip=pip3
@@ -209,41 +219,50 @@ alias cc='clang -Wall'
 ###############################################################################
 # IDRIS
 ###############################################################################
-alias idr=idris
+# alias idr=idris
 
 ###############################################################################
 # GIT
 ###############################################################################
-alias gin='git init'
 alias gst='git status -s'
-alias gitstat=git-quick-stats
+alias gin='git init'
+alias gstats=git-quick-stats
 
 ###############################################################################
 # GO
 ###############################################################################
-alias gohome="cd $GOSRC"
-alias gh=gohome
-alias gob='go build'
-alias got='go test'
-alias goi='go install'
-alias gor='go run'
+# alias gohome="cd $GOSRC"
+# alias gh=gohome
+# alias gob='go build'
+# alias got='go test'
+# alias goi='go install'
+# alias gor='go run'
 
 ###############################################################################
 # RUST
 ###############################################################################
 source $HOME/.cargo/env
-# alias cr="cargo run"
-# alias cb="cargo build"
-# alias crbt="RUST_BACKTRACE=1 cargo run"
-# alias ct="cargo test"
-# alias cf="cargo fix"
+alias car=cargo
+alias rc=rustc
+unalias rd  # alias rd=rmdir, unaliasing for explicitness
+alias rd=rustdoc
+alias ru=rustup
+alias carr="cargo run"
+alias carn=". ~/bin/carn"
+alias carnl=". ~/bin/carnl"
+alias carb="cargo build --release"
+alias cart="cargo test"
+alias carf="cargo fix"
+alias carc="cargo check"
+alias carcl="cargo clean"
+# alias ="RUST_BACKTRACE=1 cargo run"
 
 ###############################################################################
 # RUBY
 ###############################################################################
 alias irb=pry
 alias gi='gem install --user'
-alias ru='ruby -I.'
+# alias ru='ruby -I.'
 
 ###############################################################################
 # ERLANG
@@ -264,10 +283,12 @@ bindkey "^P" up-history  # readline compatibility
 bindkey "^N" down-history  # readline compatibility
 bindkey "^K" up-history
 bindkey "^J" down-history
-bindkey "^A" history-incremental-search-backward
-bindkey "^S" history-incremental-search-forward
 bindkey "^Z" autosuggest-execute
 bindkey "^E" edit-command-line
+
+bindkey "^R" fzf-history-widget
+bindkey "^F" fzf-file-widget
+bindkey "^V" fzf-cd-widget
 
 ###############################################################################
 # MISCELLANEOUS
@@ -275,7 +296,7 @@ bindkey "^E" edit-command-line
 [ -z "$PS1" ] && return
 
 function cd {
-    builtin cd "$@" && ls -F
+  builtin cd "$@" && ls -F
 }
 
 # Prevent annoying wait when trying to pip install
@@ -293,3 +314,5 @@ eval $(dbus-launch)
 
 # Create
 [[ ! -e "/tmp/deleted" ]] && mkdir /tmp/deleted
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

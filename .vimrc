@@ -6,7 +6,7 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-" Combinatorial Optimization
+" Constraint programming
 Plugin 'vale1410/vim-minizinc'
 augroup V_MiniZinc
   autocmd!
@@ -16,6 +16,9 @@ augroup end
 
 " Plugin manager, has to be loaded first
 Plugin 'gmarik/Vundle.vim'
+
+" Hopefully I can use this instead of Jupyter Notebooks
+Plugin 'metakirby5/codi.vim'
 
 " Additional text objects
 Plugin 'wellle/targets.vim'
@@ -34,15 +37,17 @@ Plugin 'rhysd/clever-f.vim'
 
 " Templates
 Plugin 'tibabit/vim-templates'
-
-" Rust
-Plugin 'rust-lang/rust.vim'
+"
+" Rust -- freezes on save
+" Plugin 'rust-lang/rust.vim'
+" let g:rustfmt_autosave = 1
 
 " Formatting
 Plugin 'Chiel92/vim-autoformat'
 let g:autoformat_autoindent = 1
 let g:autoformat_retab = 1
 let g:autoformat_remove_trailing_spaces = 1
+let g:formatters_python = ["black"]
 augroup V_FormatOnSave
   autocmd!
   autocmd BufWritePre * :Autoformat
@@ -126,11 +131,6 @@ Plugin 'mileszs/ack.vim'
 
 " Cool status bar
 Plugin 'vim-airline/vim-airline'
-
-" Plugin 'wlangstroth/vim-racket'
-" Plugin 'idris-hackers/idris-vim'
-" Plugin 'ElmCast/elm-vim'
-" let g:elm_format_autosave = 1
 
 call vundle#end()
 
@@ -240,7 +240,23 @@ set shiftwidth=2
 set list
 set listchars=tab:▸\ ,eol:¬
 
-" Python
+" Learning VimScript
+augroup V_VimScript
+  autocmd!
+  autocmd BufWritePost *.vim execute "source %"
+augroup end
+
+augroup V_Bash
+  autocmd!
+  autocmd BufNewFile,BufRead *.sh nnoremap <buffer> <C-m> :!bash %<CR>
+augroup end
+
+augroup V_Rust
+  autocmd!
+  autocmd BufNewFile,BufRead *.rs nnoremap <buffer> <C-m> :!cargo run<CR>
+  autocmd BufNewFile,BufRead *.rs nnoremap <buffer> <C-n> :!cargo test<CR>
+augroup end
+
 augroup V_Python
   autocmd!
   autocmd BufNewFile,BufRead *.py
@@ -258,7 +274,7 @@ augroup V_Golang
   autocmd BufWritePre *.go :GoTest
 augroup end
 
-" Text outline files
+" Outline files that render as graphs
 augroup V_TextOutline
   autocmd!
   autocmd BufWrite *.outline :!outmind %
@@ -267,9 +283,10 @@ augroup V_TextOutline
         \ setlocal shiftwidth=1 |
         \ setlocal foldmethod=indent |
         \ setlocal fileformat=unix |
+        \ let b:autoformat_autoindent = 0 |
+        \ let b:autoformat_retab = 0
 augroup end
 
-" Racket
 augroup V_Racket
   autocmd!
   autocmd BufReadPost *.rkt,*.rktl set filetype=racket
@@ -277,19 +294,18 @@ augroup V_Racket
   autocmd filetype racket set autoindent
 augroup end
 
-" Graphivz
 augroup V_Graphviz
   autocmd!
   autocmd BufWritePost *.dot silent! execute "!dot % -Tpdf > %.pdf && nohup evince %.pdf >/dev/null 2>&1 &" | redraw!
 augroup end
 
-" LaTeX - latex
+" LATEX - latex
 augroup V_LaTeX
   autocmd BufNewFile,BufRead *.tex
-  \ setlocal softtabstop=1 |
-  \ setlocal shiftwidth=1 |
-  \ setlocal foldmethod=indent |
-  \ setlocal fileformat=unix |
+        \ setlocal softtabstop=1 |
+        \ setlocal shiftwidth=1 |
+        \ setlocal foldmethod=indent |
+        \ setlocal fileformat=unix |
   autocmd!
   autocmd BufWritePost *.tex silent! execute "!latexmk % --pdf && nohup evince %:t:r.pdf >/dev/null 2>&1 &" | redraw!
   autocmd VimLeave *.tex silent! execute "!rm *aux; rm *latexmk; rm *log; rm *syntex.gz; rm *.fls"
@@ -383,12 +399,16 @@ vnoremap 0 "0p
 " Yank 'til end of line
 nnoremap Y y$
 
-" Behave like C
-nnoremap S C
+" Visual 'til end of line
+nnoremap vv V
+nnoremap V v$
+
+" I never use this
+nnoremap S <nop>
 
 " Move by visual lines
 nnoremap k gk
-nnoremap k gk
+nnoremap j gj
 
 " Add numbered movements to jump list
 nnoremap <expr> k (v:count > 1 ? "m'" . v:count . 'k' : 'gk')
