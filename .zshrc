@@ -11,6 +11,7 @@ export PATH="$PATH:/home/michael/Development/Flutter/flutter/bin"
 export PATH="$PATH:/usr/local/go/bin"
 export PATH="$PATH:/home/michael/.gem/ruby/2.5.0/bin"
 export PATH="$PATH:/home/michael/.cabal/bin"
+export PATH="$PATH:/home/michael/julia-1.3.1/bin"
 export EDITOR=vim
 export PAGER=less
 export JDK_HOME=/usr/lib/jvm/java-11-openjdk-amd64
@@ -26,6 +27,9 @@ export ROFICFG="$CONFIG/rofi"
 export DUNSTCFG="$CONFIG/dunst"
 
 export DOW="$HOME/Downloads/"
+
+# Remove annoying "Couldn't connect to accessibility bus" messages
+export NO_AT_BRIDGE=1
 
 # Save last directory so we can jump to it
 export PROMPT_COMMAND="pwd > $HOME/.whereami"
@@ -52,13 +56,11 @@ source $(dirname $(gem which colorls))/tab_complete.sh
 # ALIASES
 ###############################################################################
 # Essentials
-alias a=ack
 alias b=bat
 alias c=cat
 alias f=fzf
 alias i='sudo apt install'
 alias o=openall
-alias g=grep
 alias s='sudo $(fc -ln -1)'
 alias t=tree
 alias v='vim -o -n'
@@ -66,16 +68,28 @@ alias vf='vim -o -n `fzf`'
 alias w=view
 
 # More Essentials
+alias wcs='wc *'
+alias rgi='rg -i'
+alias lc='wc -l'
+alias lcs='wc -l *'
 alias ev=expr
 alias ee=". ~/bin/ee"
 alias tk=take
 alias tf='tree -i -f'
 alias fdir='fd -t d'
 alias mx='chmod u+x'
+alias clip='xclip -selection clipboard'
+
+# processes
+alias pg=pgrep
 alias pk=pkill
 alias pks='pkill slack'
+alias pkd='pkill Discord'
 alias pkj='pkill jupyter'
-alias clip='xclip -selection clipboard'
+
+# ripgrep
+alias rgi='rg -i'
+alias rgl='rg -l'
 
 # Do it all
 alias ba='bat *'
@@ -95,6 +109,7 @@ alias rm=rm-wrapper
 alias df='pydf'
 
 # Wrappers
+alias cpr='cp -r'
 alias rmf='rm -rf'
 alias tarc='tar -cvf'
 alias tarx='tar -xvf'
@@ -107,7 +122,7 @@ alias map='xargs -L1'
 alias filter=grep
 
 # Config
-alias vc="vim -n $VIMRC"
+# alias vc=scr vc
 alias zc="vim -n $ZSHRC; source $ZSHRC"
 alias ic="vim ~/.config/i3/config"
 alias sz="source ~/.zshrc"
@@ -120,12 +135,14 @@ alias polycfg="vim ~/.config/polybar/config"
 alias ct='take /tmp/$RANDOM'
 alias vt='ct && v $RANDOM'
 alias vtx='ct && v $RANDOM.tex'
-alias vtm='ct && v /tmp/$RANDOM.md'
+alias vtm='ct && v $RANDOM.md'
+alias vtr='ct && v main_$RANDOM.rs'
 
 # Todos
 alias td='vim ~/Documents/TODOS/todo.md'
 
 # Misc
+alias sc=systemctl
 alias ankify='python3 /home/michael/Development/Python/md_to_anki/md_to_anki.py'
 alias batt="acpi -b"
 alias cls=clear
@@ -133,7 +150,6 @@ alias empty='sed -i -n G'
 # alias opam="OPAMROOT=~/.opam2 /home/michael/.opam/system/lib/opam-devel/opam"
 alias rebar=rebar3
 alias rkt='racket'
-alias sc='shellcheck'
 alias sha256="shasum -a 256"
 alias sha512="shasum -a 512"
 alias say=spd-say
@@ -145,6 +161,8 @@ alias dat=date
 alias ate=date
 alias te=date
 alias chrome=google-chrome
+alias ack='echo "use rg"'
+alias wn1='watch -n 1'
 
 ###############################################################################
 # HASKELL
@@ -162,6 +180,11 @@ alias chrome=google-chrome
 # alias hr=runhaskell
 # alias hrun=runhaskell
 # alias dt=doctest
+
+###############################################################################
+# JULIA
+###############################################################################
+alias j='julia -q'
 
 ###############################################################################
 # JEKYLL
@@ -200,13 +223,13 @@ alias ppud='pipenv update'
 ###############################################################################
 # PYTHON
 ###############################################################################
-alias pi='ipython --TerminalInteractiveShell.editing_mode=vi --no-confirm-exit'
-alias ip='ipython --TerminalInteractiveShell.editing_mode=vi --no-confirm-exit'
+alias pi='ipython --TerminalInteractiveShell.editing_mode=vi --no-confirm-exit --no-banner'
+alias ip=pi
 alias p=python3.6
 alias p3=python3.6
 alias p8=python3.8
 alias python=python3.6
-alias pt=pytest -vv --doctest-modules
+alias pt='python -m pytest tests -vv --doctest-modules'
 alias pip=pip3
 alias pipi='pip3 install --user'
 alias wp='watch -n 0.8 python3'
@@ -224,6 +247,7 @@ alias cc='clang -Wall'
 ###############################################################################
 # GIT
 ###############################################################################
+alias gs='git status -s'
 alias gst='git status -s'
 alias gin='git init'
 alias gstats=git-quick-stats
@@ -244,18 +268,28 @@ alias gstats=git-quick-stats
 source $HOME/.cargo/env
 alias car=cargo
 alias rc=rustc
-unalias rd  # alias rd=rmdir, unaliasing for explicitness
-alias rd=rustdoc
-alias ru=rustup
-alias carr="cargo run"
+
+# starting a project
 alias carn=". ~/bin/carn"
 alias carnl=". ~/bin/carnl"
-alias carb="cargo build --release"
+
+# managing dependencies
+alias cara="cargo add"
+alias carm="cargo rm"
+alias caru="cargo update"
+
+alias carc="cargo clippy"
+alias carb="cargo build"
+alias carr="cargo run --release"
+alias carrb="cargo run --bin"
+alias carre="cargo run --example"
+alias carm="cargo modules tree"
 alias cart="cargo test"
-alias carf="cargo fix"
-alias carc="cargo check"
-alias carcl="cargo clean"
-# alias ="RUST_BACKTRACE=1 cargo run"
+alias care="cargo expand"
+alias cari="cargo install"
+
+# for racer
+RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/src
 
 ###############################################################################
 # RUBY
@@ -289,6 +323,8 @@ bindkey "^E" edit-command-line
 bindkey "^R" fzf-history-widget
 bindkey "^F" fzf-file-widget
 bindkey "^V" fzf-cd-widget
+
+bindkey -s "^O" "^Qcd -^M"
 
 ###############################################################################
 # MISCELLANEOUS

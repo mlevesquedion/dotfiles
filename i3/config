@@ -1,9 +1,6 @@
 ################################################################################
 # STARTUP
 ################################################################################
-# bar
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-
 # wallpaper
 exec_always feh --bg-scale /home/michael/Pictures/wallpaper.jpg
 
@@ -13,8 +10,8 @@ exec_always greenclip daemon
 ################################################################################
 # MISC
 ################################################################################
+focus_wrapping yes
 
-# mouse focus
 focus_follows_mouse no
 
 focus_on_window_activation none
@@ -23,21 +20,31 @@ focus_on_window_activation none
 # STYLE
 ################################################################################
 
-set $bg-color            #aa42f4
-set $inactive-bg-color   #2b113d
-set $text-color          #f0f0f0
-set $inactive-text-color #666666
-set $urgent-bg-color     #f44141
+# Dracula
+set $BACK #282a36
+set $CURR #44475a
+set $FORE #f8f8f2
+set $COMM #6272a4
+set $CYAN #8be9fd
+set $GREE #50fa7b
+set $ORAN #ffb86c
+set $PINK #ff79c6
+set $PURP #bd93f9
+set $PUDA #9775c7
+set $PUBL #715794
+set $REDD #ff5555
+set $YELL #f1fa8c
 
-# window colors
-#                       border              background         text                 indicator
-client.focused          $bg-color           $bg-color          $text-color          #00ff00
-client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00
-client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00
-client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #00ff00
+# class                 bord. backg text  indi. cbord
+client.focused          $PURP $PURP $BACK $GREE $PURP
+client.focused_inactive $PUDA $PUDA $BACK $GREE $PUDA
+client.unfocused        $PUBL $PUBL $BACK $GREE $PUBL
+client.urgent           $REDD $REDD $TEXT $GREE $REDD
+client.placeholder      $GREE $GREE $GREE $GREE $GREE
+client.background       $BACK
 
 # font for window titles
-font pango:DejaVu Sans Mono 11
+font pango:DejaVu Sans Mono 12
 
 ################################################################################
 # WORKSPACES
@@ -54,6 +61,7 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
+for_window [class="discord"] move to workspace $ws9
 for_window [class="Slack"] move to workspace $ws9
 for_window [class="Spotify"] move to workspace $ws9
 
@@ -61,15 +69,11 @@ for_window [class="Spotify"] move to workspace $ws9
 # APPLICATIONS
 ################################################################################
 
-# anki
-bindsym $mod+a exec anki
-
 # chrome
 bindsym $mod+c exec google-chrome
 
 # screen capture
 bindsym $mod+x exec maim -s -u --format=png /dev/stdout | xclip -selection clipboard -t image/png -i
-bindsym $mod+shift+x exec maim  --format=png /dev/stdout | xclip -selection clipboard -t image/png -i
 
 ################################################################################
 # CUSTOM KEYBINDINGS
@@ -86,9 +90,6 @@ set $right l
 
 # move under left
 bindsym $mod+Ctrl+h focus left; split vertical; focus right; move left
-
-# move above left
-bindsym $mod+Ctrl+j focus left; split vertical; focus right; move left; move up
 
 # move under right
 bindsym $mod+Ctrl+l focus right; split vertical; focus left; move right
@@ -131,16 +132,17 @@ mode "resize" {
     bindsym $mod+r mode "default"
 }
 
+# launch app by name
 bindsym $Mod+d exec rofi -show drun
-
-# suspend
-bindsym Ctrl+$Mod+S exec systemctl suspend
 
 # find window by name
 bindsym $Mod+G exec rofi -show window
 
 # Show clipboard manager
-bindsym $Mod+P exec rofi -modi "clipboard:greenclip print" -show clipboard
+bindsym $Mod+O exec rofi -modi "clipboard:greenclip print" -show clipboard
+#
+# suspend
+bindsym Ctrl+$Mod+S exec systemctl suspend
 
 ################################################################################
 # DEFAULT KEYBINDINGS
@@ -153,7 +155,7 @@ floating_modifier $mod
 bindsym $mod+Return exec i3-sensible-terminal
 
 # start an ipython terminal
-bindsym $mod+Shift+Return exec i3-sensible-terminal -e "ipython"
+bindsym $mod+P exec i3-sensible-terminal -e 'cd $(cat "$HOME/.whereami") && ipython --TerminalInteractiveShell.editing_mode=vi --no-confirm-exit --no-banner'
 
 # kill focused window
 bindsym $mod+q kill
@@ -181,7 +183,7 @@ bindsym $mod+v split v
 bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+t layout stacking
+# bindsym $mod+t layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
@@ -224,6 +226,40 @@ bindsym $mod+Shift+0 move container to workspace $ws10
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
+
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 
+################################################################################
+# BAR
+################################################################################
+bar {
+  font pango:DejaVu Sans Mono, FontAwesome 12
+    position bottom
+    status_command ~/bin/i3status-rs ~/.config/i3status-rust/config.toml
+    colors {
+      background         $BACK
+      statusline         $BACK
+      separator          $YELL
+      focused_workspace  $FORE $PURP $FORE
+      active_workspace   $REDD $REDD $REDD
+      inactive_workspace $BACK $BACK $COMM
+      urgent_workspace   $FORE $REDD $FORE
+      binding_mode       $FORE $GREE $BACK
+    }
+}
+
+# Dracula
+set $BACK #282a36
+set $CURR #44475a
+set $FORE #f8f8f2
+set $COMM #6272a4
+set $CYAN #8be9fd
+set $GREE #50fa7b
+set $ORAN #ffb86c
+set $PINK #ff79c6
+set $PURP #bd93f9
+set $PUDA #9775c7
+set $PUBL #715794
+set $REDD #ff5555
+set $YELL #f1fa8c
