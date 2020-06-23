@@ -1,6 +1,7 @@
 ################################################################################
 # STARTUP
 ################################################################################
+
 # wallpaper
 exec_always feh --bg-scale /home/michael/Pictures/wallpaper.jpg
 
@@ -10,6 +11,7 @@ exec_always greenclip daemon
 ################################################################################
 # MISC
 ################################################################################
+
 focus_wrapping yes
 
 focus_follows_mouse no
@@ -30,8 +32,8 @@ set $GREE #50fa7b
 set $ORAN #ffb86c
 set $PINK #ff79c6
 set $PURP #bd93f9
-set $PUDA #9775c7
-set $PUBL #715794
+set $PUDA #7d5ea8
+set $PUBL #533f70
 set $REDD #ff5555
 set $YELL #f1fa8c
 
@@ -44,7 +46,7 @@ client.placeholder      $GREE $GREE $GREE $GREE $GREE
 client.background       $BACK
 
 # font for window titles
-font pango:DejaVu Sans Mono 12
+font pango:DejaVu Sans Mono 11
 
 ################################################################################
 # WORKSPACES
@@ -104,9 +106,9 @@ bindsym $mod+Ctrl+c focus child
 bindsym $mod+Ctrl+p focus parent
 
 # Pulse Audio controls
-bindsym $Mod+Shift+o exec --no-startup-id pactl set-sink-volume 0 +5% && pactl set-sink-volume 1 +5%
-bindsym $Mod+Shift+i exec --no-startup-id pactl set-sink-volume 0 -5% && pactl set-sink-volume 1 -5%
-bindsym $Mod+Shift+p exec --no-startup-id pactl set-sink-mute 0 toggle && pactl set-sink-mute 1 toggle
+bindsym $Mod+Shift+o exec --no-startup-id volume inc
+bindsym $Mod+Shift+i exec --no-startup-id volume dec
+bindsym $Mod+Shift+p exec --no-startup-id volume mute
 
 # Switch keyboard layout
 bindsym $Mod+Shift+n exec setxkbmap -layout ca && setxkbmap -option caps:super
@@ -233,33 +235,21 @@ bindsym $mod+Shift+r restart
 ################################################################################
 # BAR
 ################################################################################
-bar {
-  font pango:DejaVu Sans Mono, FontAwesome 12
-    position bottom
-    status_command ~/bin/i3status-rs ~/.config/i3status-rust/config.toml
-    colors {
-      background         $BACK
-      statusline         $BACK
-      separator          $YELL
-      focused_workspace  $FORE $PURP $FORE
-      active_workspace   $REDD $REDD $REDD
-      inactive_workspace $BACK $BACK $COMM
-      urgent_workspace   $FORE $REDD $FORE
-      binding_mode       $FORE $GREE $BACK
-    }
-}
 
-# Dracula
-set $BACK #282a36
-set $CURR #44475a
-set $FORE #f8f8f2
-set $COMM #6272a4
-set $CYAN #8be9fd
-set $GREE #50fa7b
-set $ORAN #ffb86c
-set $PINK #ff79c6
-set $PURP #bd93f9
-set $PUDA #9775c7
-set $PUBL #715794
-set $REDD #ff5555
-set $YELL #f1fa8c
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
+# bar {
+#   font pango:DejaVu Sans Mono, FontAwesome 12
+#     position bottom
+#     status_command ~/bin/i3status-rs ~/.config/i3status-rust/config.toml
+#     colors {
+#       background         $BACK
+#         statusline         $BACK
+#         separator          $YELL
+#         focused_workspace  $PURP $PURP $BACK
+#         active_workspace   $REDD $REDD $REDD
+#         inactive_workspace $BACK $BACK $COMM
+#         urgent_workspace   $REDD $REDD $BACK
+#         binding_mode       $GREE $GREE $BACK
+#     }
+# }

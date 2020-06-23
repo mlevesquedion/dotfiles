@@ -6,17 +6,14 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-" TOML
-Plugin 'cespare/vim-toml'
-
-" Constraint programming
-Plugin 'vale1410/vim-minizinc'
-
 " Plugin manager, has to be loaded first
 Plugin 'gmarik/Vundle.vim'
 
-" Hopefully I can use this instead of Jupyter Notebooks
-Plugin 'metakirby5/codi.vim'
+" Git
+Plugin 'airblade/vim-gitgutter'
+
+" TOML
+Plugin 'cespare/vim-toml'
 
 " Additional text objects
 Plugin 'wellle/targets.vim'
@@ -36,15 +33,12 @@ Plugin 'alvan/vim-closetag'
 " Close bracket on <CR>
 Plugin 'rstacruz/vim-closer'
 
-" Doesn't work right
-" Plugin 'neoclide/coc.nvim'
-
-" Registers
-" Plugin 'junegunn/vim-peekaboo'
-
 " Templates
 Plugin 'tibabit/vim-templates'
-"
+
+" Vue
+Plugin 'posva/vim-vue'
+
 " Rust
 " Plugin 'rust-lang/rust.vim'
 " let g:rustfmt_autosave = 1
@@ -54,24 +48,26 @@ let g:racer_insert_paren = 1
 
 " Formatting
 Plugin 'Chiel92/vim-autoformat'
-let g:autoformat_autoindent = 1
-let g:autoformat_retab = 1
+let g:autoformat_autoindent = 0
+let g:autoformat_retab = 0
 let g:autoformat_remove_trailing_spaces = 1
 let g:formatters_python = ['black']
 
 function! ToggleAutoformat()
-  if g:autoformat_autoindent
-    let g:autoformat_autoindent = 0
-    let g:autoformat_retab = 0
-  else
-    let g:autoformat_autoindent = 1
-    let g:autoformat_retab = 1
-  endif
+ if g:autoformat_autoindent
+  let g:autoformat_autoindent = 0
+  let g:autoformat_retab = 0
+ else
+  let g:autoformat_autoindent = 1
+  let g:autoformat_retab = 1
+ endif
 endfunction
 
 augroup V_FormatOnSave
-  autocmd!
-  autocmd BufWritePre * :Autoformat
+ autocmd!
+ autocmd BufEnter *.outline let b:autoformat_autoindent=0
+ autocmd BufEnter *.outline let b:autoformat_retab=0
+ autocmd BufWritePre * :Autoformat
 augroup end
 
 " Linting
@@ -91,12 +87,31 @@ Plugin 'tmhedberg/matchit'
 
 " Go
 Plugin 'fatih/vim-go'
+
 let g:go_fmt_command = "goimports"
+
+let g:go_doc_keywordprg_enabled = 0
+
+let g:go_fold_enable = ['block', 'import', 'varconst', 'package_comment', 'comment']
+
+let g:go_highlight_extra_types = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_parameters = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_format_strings = 1
+
+let g:go_list_type = "quickfix"
+
+let g:go_auto_type_info = 1
+
+let g:go_auto_sameids = 1
 
 " Syntax highlighting
 Plugin 'vim-syntastic/syntastic'
 let g:syntastic_mode_map = { 'passive_filetypes': ['python'] }
-let g:syntastic_enable_racket_racket_checker = 1
 
 Plugin 'tmhedberg/SimpylFold'
 Plugin 'tpope/vim-commentary'
@@ -106,18 +121,6 @@ Plugin 'tpope/vim-surround'
 " Convenient shortcut
 " nmap m ysiw
 " vmap m S
-
-" Distraction free zone
-Plugin 'junegunn/goyo.vim'
-Plugin 'junegunn/limelight.vim'
-augroup V_NoDistraction
-  autocmd! User GoyoEnter Limelight
-  autocmd! User GoyoLeave Limelight!
-augroup end
-
-" Haskell
-Plugin 'neovimhaskell/haskell-vim'
-Plugin 'nbouscal/vim-stylish-haskell'
 
 " Dracula
 Plugin 'dracula/vim'
@@ -136,8 +139,8 @@ let g:tex_conceal='abdmg'
 Plugin 'luochen1990/rainbow'
 let g:rainbow_active = 1
 let g:rainbow_conf = {
-      \ 'ctermfgs': ['Magenta', 'Yellow', 'Cyan'],
-      \ }
+   \ 'ctermfgs': ['Magenta', 'Yellow', 'Cyan'],
+   \ }
 
 " Snippets
 Plugin 'honza/vim-snippets'
@@ -151,6 +154,9 @@ Plugin 'mileszs/ack.vim'
 
 " Cool status bar
 Plugin 'vim-airline/vim-airline'
+
+" Hex colors
+Plugin 'Colorizer'
 
 call vundle#end()
 
@@ -206,14 +212,15 @@ nnoremap <leader>v <C-v>
 " Open explorer
 nnoremap <leader>x :Vexplore<CR>
 
-" Close lists
-nnoremap <leader>c :ccl<CR>:lcl<CR>
-
 " Quick toggle last two jump places
 nnoremap <leader><leader> :normal! ''<CR>
+vnoremap <leader><leader> :normal! ''<CR>
 
 " Write inside brackets
 nnoremap <leader>i $i<CR><ESC>O
+
+" Switch between recent files
+nnoremap <C-f> <C-^>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " SETTINGS
@@ -241,6 +248,7 @@ set nrformats-=octal
 set showcmd
 set smarttab
 set timeoutlen=300
+set updatetime=100
 set undodir=~/.vim/undodir
 set undofile
 set wildmenu
@@ -264,30 +272,40 @@ set shiftwidth=2
 
 " Show unprintable characters, e.g. EOL
 set list
-set listchars=tab:▸\ ,eol:¬
+set listchars=tab:░░
 
 augroup V_Graphviz
-  autocmd!
-  autocmd BufWritePost *.dot silent! execute "!fdp % -Tpdf > %.pdf && nohup evince %.pdf >/dev/null 2>&1 &" | redraw!
+ autocmd!
+ autocmd BufWritePost *.dot silent! execute "!fdp % -Tpdf > %.pdf && nohup evince %.pdf >/dev/null 2>&1 &" | redraw!
 augroup end
 
 " LATEX - latex
 augroup V_LaTeX
-  autocmd!
-  autocmd BufNewFile,BufRead *.tex
-        \ setlocal softtabstop=1 |
-        \ setlocal shiftwidth=1 |
-        \ setlocal foldmethod=indent |
-        \ setlocal fileformat=unix |
-  autocmd BufWritePost *.tex silent! execute "!latexmk % --pdf && nohup evince %:t:r.pdf >/dev/null 2>&1 &" | redraw!
-  autocmd VimLeave *.tex silent! execute "!rm *aux; rm *latexmk; rm *log; rm *syntex.gz; rm *.fls"
+ autocmd!
+ autocmd BufNewFile,BufRead *.tex
+    \ setlocal softtabstop=1 |
+    \ setlocal shiftwidth=1 |
+    \ setlocal foldmethod=indent |
+    \ setlocal fileformat=unix |
+ autocmd BufWritePost *.tex silent! execute "!latexmk % --pdf && nohup evince %:t:r.pdf >/dev/null 2>&1 &" | redraw!
+ autocmd VimLeave *.tex silent! execute "!rm *aux; rm *latexmk; rm *log; rm *syntex.gz; rm *.fls"
 augroup end
 
 " minizinc
 augroup V_MiniZinc
-  autocmd!
-  autocmd BufNewFile,BufRead *.mzn nnoremap <buffer> <C-m> :!minizinc % -s --solver chuffed<CR>
-  autocmd BufNewFile,BufRead *.mzn nnoremap <buffer> <C-n> :!minizinc % -a -s --solver chuffed<CR>
+ autocmd!
+ autocmd BufNewFile,BufRead *.mzn nnoremap <buffer> <C-m> :!minizinc % -s --solver chuffed<CR>
+ autocmd BufNewFile,BufRead *.mzn nnoremap <buffer> <C-n> :!minizinc % -a -s --solver chuffed<CR>
+augroup end
+
+" outline
+augroup V_Outline
+ autocmd!
+ autocmd BufWritePost *.outline :!outmind %
+ setlocal softtabstop=1
+ setlocal shiftwidth=1
+ setlocal foldmethod=indent
+ setlocal fileformat=unix
 augroup end
 
 " Prevent background
@@ -324,13 +342,6 @@ vnoremap / y/<C-r>"<CR>
 nnoremap <leader>A yiw:Ack <C-r>"<CR>
 nnoremap <leader>C :cclose<CR>
 
-" Visually select next search match
-nnoremap <leader>n gn
-nnoremap gn ''
-
-" Pipe to Python
-nnoremap <leader>p :exec "r!python -c '" . getline('.') . "'"<CR>
-
 " Google search for word under cursor
 nnoremap <leader>q :exec "!google-chrome 'http://www.google.com/search\?q\=" . expand("<cword>") . "'"<CR>
 
@@ -341,12 +352,14 @@ nnoremap <leader>; mmA;<ESC>`m
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " CONTROL
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Move by block
+
+" Join
 nnoremap <C-j> J
 
-" Down after UltiSnips trigger
-nnoremap <C-k> j
-inoremap <C-k> <ESC>
+" Quickfix
+nnoremap <C-e> :cnext<CR>
+nnoremap <C-p> :cprevious<CR>
+nnoremap <C-q> :cclose<CR>
 
 " Navigate jump list
 nnoremap <C-h> <C-o>
@@ -356,8 +369,12 @@ nnoremap <C-l> <C-i>
 " COMMANDS
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" when file was opened without appropriate priviledges
+" when file was opened without appropriate privileges
 cnoremap w!! w !sudo tee % > /dev/null
+
+" more intuitive binding (matches my command line mapping)
+cnoremap <C-e> <C-f>
+cnoremap <C-f> <NOP>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MOTION MAPPINGS
@@ -411,9 +428,9 @@ nnoremap gj j
 nnoremap gk k
 
 " Recall last command or search
-nnoremap :: :<Up>
-nnoremap // /<Up>
-nnoremap ?? ?<Up>
+nnoremap ; :
+nnoremap : :<Up>
+nnoremap ? /<Up>
 
 " Select last pasted text
 noremap gp `[v`]
@@ -430,7 +447,7 @@ nmap <C-_> gcc
 vmap <C-_> gc
 
 " Rename symbol
-nnoremap <C-e> "wyiw:%s/<C-R>w//gc<left><left><left>
+nnoremap <C-r> "wyiw:%s/<C-R>w//gc<left><left><left>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " INSERT MODE
@@ -482,17 +499,17 @@ vnoremap > >gv
 " Smart pasting
 inoremap <special> <expr> <ESC>[200~ Xtermpastebegin()
 function! Xtermpastebegin()
-  set pastetoggle=<ESC>[201~
-  set paste
-  return ""
+ set pastetoggle=<ESC>[201~
+ set paste
+ return ""
 endfunction
 
 " Whitespace
 function! <SID>StripTrailingWhitespace()
-  let l = line(".")
-  let c = col(".")
-  %s/\s\+$//e
-  call cursor(l, c)
+ let l = line(".")
+ let c = col(".")
+ %s/\s\+$//e
+ call cursor(l, c)
 endfun
 
 " augroup V_DeleteWhitespaceOnSave
@@ -507,18 +524,18 @@ set ttymouse=
 
 " Keep cursor centered on screen
 augroup V_CenterCursor
-  autocmd!
-  autocmd BufEnter,WinEnter,WinNew,VimResized *,*.*
-        \ let &scrolloff=winheight(win_getid())/2
+ autocmd!
+ autocmd BufEnter,WinEnter,WinNew,VimResized *,*.*
+    \ let &scrolloff=winheight(win_getid())/2
 augroup end
 
 " Return to last edit position when opening files (You want this!)
 augroup V_ReopenAtLastEdit
-  autocmd!
-  autocmd BufReadPost *
-        \ if line("'\"") > 0 && line("'\"") <= line("$") |
-        \   exe "normal! g`\" "|
-        \ endif
+ autocmd!
+ autocmd BufReadPost *
+    \ if line("'\"") > 0 && line("'\"") <= line("$") |
+    \   exe "normal! g`\" "|
+    \ endif
 augroup end
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

@@ -80,6 +80,10 @@ alias fdir='fd -t d'
 alias mx='chmod u+x'
 alias clip='xclip -selection clipboard'
 
+# ls
+alias l1='ls -1'
+alias lt='ls -t'
+
 # processes
 alias pg=pgrep
 alias pk=pkill
@@ -137,11 +141,16 @@ alias vt='ct && v $RANDOM'
 alias vtx='ct && v $RANDOM.tex'
 alias vtm='ct && v $RANDOM.md'
 alias vtr='ct && v main_$RANDOM.rs'
+alias vtp='ct && v main_$RANDOM.py'
+alias vtj='ct && v main_$RANDOM.java'
+alias vtg='ct && v main_$RANDOM.go'
+alias vto='ct && v main_$RANDOM.outline'
 
 # Todos
 alias td='vim ~/Documents/TODOS/todo.md'
 
 # Misc
+alias wttr='curl wttr.in'
 alias sc=systemctl
 alias ankify='python3 /home/michael/Development/Python/md_to_anki/md_to_anki.py'
 alias batt="acpi -b"
@@ -253,14 +262,12 @@ alias gin='git init'
 alias gstats=git-quick-stats
 
 ###############################################################################
-# GO
+# GOLANG
 ###############################################################################
-# alias gohome="cd $GOSRC"
-# alias gh=gohome
-# alias gob='go build'
-# alias got='go test'
-# alias goi='go install'
-# alias gor='go run'
+alias gob='go build'
+alias got='go test'
+alias goi='go install'
+alias gor='go run'
 
 ###############################################################################
 # RUST
@@ -285,6 +292,7 @@ alias carrb="cargo run --bin"
 alias carre="cargo run --example"
 alias carm="cargo modules tree"
 alias cart="cargo test"
+alias cart!="RUST_BACKTRACE=1 cargo test"
 alias care="cargo expand"
 alias cari="cargo install"
 
@@ -352,3 +360,15 @@ eval $(dbus-launch)
 [[ ! -e "/tmp/deleted" ]] && mkdir /tmp/deleted
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+
+###############################################################################
+# FZF
+###############################################################################
+
+V() (
+IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
+[[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+)
+
+export FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
