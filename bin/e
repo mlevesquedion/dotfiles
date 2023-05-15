@@ -1,0 +1,3 @@
+#!/bin/bash
+
+nohup evince "$1" &>/dev/null &

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -o errexit
+
+target="$1"
+out="${target%.*}"
+clang++ --std=c++20 -Wall -Werror "$target" -o "$out"
+chmod u+x "$out"
+./"$out"

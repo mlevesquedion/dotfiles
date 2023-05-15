@@ -1,0 +1,5 @@
+#!/bin/bash
+
+target=/tmp/tmp_$RANDOM.txt
+echo "$target"
+vim "$target"

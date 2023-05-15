@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -o errexit
+
+xrandr --output HDMI-1-1 --mode 2560x1440
+xrandr --output eDP-1 --off
+xmodmap ~/.Xmodmap

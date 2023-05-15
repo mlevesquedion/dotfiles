@@ -1,0 +1,217 @@
+################################################################################
+# STARTUP
+################################################################################
+
+# wallpaper
+exec_always feh --bg-scale /home/michael/Pictures/wallpaper.jpg
+
+################################################################################
+# MISC
+################################################################################
+
+focus_wrapping yes
+
+focus_follows_mouse no
+
+focus_on_window_activation none
+
+################################################################################
+# STYLE
+################################################################################
+
+# Dracula
+set $BACK #282a36
+set $CURR #44475a
+set $FORE #f8f8f2
+set $COMM #6272a4
+set $CYAN #8be9fd
+set $GREE #50fa7b
+set $ORAN #ffb86c
+set $PINK #ff79c6
+set $PURP #bd93f9
+set $PUDA #7d5ea8
+set $PUBL #533f70
+set $REDD #ff5555
+set $YELL #f1fa8c
+
+# class                 bord. backg text  indi. cbord
+client.focused          $PURP $PURP $BACK $GREE $PURP
+client.focused_inactive $PUDA $PUDA $BACK $GREE $PUDA
+client.unfocused        $PUBL $PUBL $BACK $GREE $PUBL
+client.urgent           $REDD $REDD $TEXT $GREE $REDD
+client.placeholder      $GREE $GREE $GREE $GREE $GREE
+client.background       $BACK
+
+# font for window titles
+font pango:DejaVu Sans Mono 11
+
+################################################################################
+# WORKSPACES
+################################################################################
+
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+################################################################################
+# APPLICATIONS
+################################################################################
+
+# chrome
+bindsym $mod+c exec google-chrome
+
+# screen capture
+bindsym $mod+x exec maim -s -u --format=png /dev/stdout | xclip -selection clipboard -t image/png -i
+
+# lock screen
+bindsym $mod+Ctrl+Shift+l exec xflock4
+
+################################################################################
+# CUSTOM KEYBINDINGS
+################################################################################
+
+# mod
+set $mod Mod4
+
+# directions
+set $up k
+set $down j
+set $left h
+set $right l
+
+# move under left
+bindsym $mod+Ctrl+h focus left; split vertical; focus right; move left
+
+# move under right
+bindsym $mod+Ctrl+l focus right; split vertical; focus left; move right
+
+# move above right
+bindsym $mod+Ctrl+k focus right; split horizontal; focus left; move right; move up
+
+# focus child container
+bindsym $mod+Ctrl+c focus child
+
+# focus parent container
+bindsym $mod+Ctrl+p focus parent
+
+# Pulse Audio controls
+bindsym $Mod+Shift+o exec --no-startup-id amixer -D pulse sset Master 5%+
+bindsym $Mod+Shift+i exec --no-startup-id amixer -D pulse sset Master 5%-
+bindsym $Mod+Shift+u exec --no-startup-id amixer -D pulse set Master toggle
+
+# resize
+bindsym $mod+r mode "resize"
+mode "resize" {
+  bindsym $left       resize shrink width 10 px or 10 ppt
+    bindsym $down       resize shrink height 10 px or 10 ppt
+    bindsym $up         resize grow height 10 px or 10 ppt
+    bindsym $right      resize grow width 10 px or 10 ppt
+    bindsym Ctrl+$left       resize shrink width 5 px or 5 ppt
+    bindsym Ctrl+$down       resize shrink height 5 px or 5 ppt
+    bindsym Ctrl+$up         resize grow height 5 px or 5 ppt
+    bindsym Ctrl+$right      resize grow width 5 px or 5 ppt
+
+    bindsym $mod+r mode "default"
+}
+
+# launch app by name
+bindsym $Mod+d exec rofi -show drun
+
+# find window by name
+bindsym $Mod+g exec rofi -show window
+
+################################################################################
+# DEFAULT KEYBINDINGS
+################################################################################
+
+# start a terminal
+bindsym $mod+Return exec i3-sensible-terminal
+
+# start an ipython terminal
+bindsym $mod+p exec i3-sensible-terminal -e '/home/michael/.local/bin/ipython --TerminalInteractiveShell.editing_mode=vi --no-confirm-exit --no-banner'
+
+# kill focused window
+bindsym $mod+q kill
+bindsym $mod+Shift+q kill
+
+# change focus
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+
+# move focused window
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+
+# split in horizontal orientation
+bindsym $mod+b split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+# bindsym $mod+t layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# move the currently focused window to the scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $mod+minus scratchpad show
+
+# switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+
+################################################################################
+# BAR
+################################################################################
+
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
